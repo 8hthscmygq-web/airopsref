@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department IR Navigator — airopsref.eu</title>
+<meta name="description" content="Find every EASA Air OPS implementing rule by department. Select Flight Ops, Safety, CAMO, Ground Ops, Cabin Crew and more — with direct EAR links.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1520;--bg2:#111e30;--bg3:#162540;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--gold:#c8a84b;--gold-l:#e4c96a;--gold-bg:rgba(200,168,75,0.12);--gold-bd:rgba(200,168,75,0.28);--text:#dde3ef;--muted:#7a8aaa;--dim:#3d4d68;--h-title:#ffffff;--hbg1:#0e1f38;--hbg2:#0c1520;--ops:#3a8fd4;--ops-bg:rgba(58,143,212,0.10);--ops-bd:rgba(58,143,212,0.30);--pers:#8a68d4;--pers-bg:rgba(138,104,212,0.10);--pers-bd:rgba(138,104,212,0.30);--airw:#3ab87a;--airw-bg:rgba(58,184,122,0.10);--airw-bd:rgba(58,184,122,0.30);--aero:#d47a3a;--aero-bg:rgba(212,122,58,0.10);--aero-bd:rgba(212,122,58,0.30);--atm:#2ab8c8;--atm-bg:rgba(42,184,200,0.10);--atm-bd:rgba(42,184,200,0.30);--ir:#e05555;--ir-bg:rgba(224,85,85,0.12);--ir-bd:rgba(224,85,85,0.35);--amc:#4a9fd4;--amc-bg:rgba(74,159,212,0.12);--amc-bd:rgba(74,159,212,0.35);--gm:#5ab870;--gm-bg:rgba(90,184,112,0.12);--gm-bd:rgba(90,184,112,0.35);--r:8px;--r-sm:5px}
+[data-theme="light"]{--bg:#f0f3f8;--bg2:#ffffff;--bg3:#e6eaf3;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#1a2440;--muted:#4a5878;--dim:#8a9ab8;--h-title:#1a2440;--hbg1:#e4e8f5;--hbg2:#edf0f8;--gold:#9a7418;--gold-l:#7a5c10;--gold-bg:rgba(154,116,24,0.09);--gold-bd:rgba(154,116,24,0.22);--ops:#1660a8;--ops-bg:rgba(22,96,168,0.08);--ops-bd:rgba(22,96,168,0.22);--pers:#5c38a8;--pers-bg:rgba(92,56,168,0.08);--pers-bd:rgba(92,56,168,0.22);--airw:#1a7a42;--airw-bg:rgba(26,122,66,0.08);--airw-bd:rgba(26,122,66,0.22);--aero:#b05820;--aero-bg:rgba(176,88,32,0.08);--aero-bd:rgba(176,88,32,0.22);--atm:#0e8898;--atm-bg:rgba(14,136,152,0.08);--atm-bd:rgba(14,136,152,0.22);--ir:#c02828;--ir-bg:rgba(192,40,40,0.08);--ir-bd:rgba(192,40,40,0.25);--amc:#1660a8;--amc-bg:rgba(22,96,168,0.08);--amc-bd:rgba(22,96,168,0.25);--gm:#1a7a42;--gm-bg:rgba(26,122,66,0.08);--gm-bd:rgba(26,122,66,0.25)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+header{background:linear-gradient(150deg,var(--hbg1),var(--hbg2) 70%);border-bottom:1px solid var(--border);padding:40px 32px 32px;position:relative;overflow:hidden}
+header::after{content:'';position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(200,168,75,0.05) 0%,transparent 65%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:var(--gold-l);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;color:var(--h-title);line-height:1.15;margin-bottom:10px}
+header h1 em{color:var(--gold);font-style:normal}
+header p{color:var(--muted);max-width:580px;font-size:13.5px;font-weight:300}
+.theme-toggle{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:7px 14px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;cursor:pointer;font-size:11px;font-weight:600;color:var(--gold-l);letter-spacing:.05em;white-space:nowrap;user-select:none;transition:opacity .2s;margin-top:4px}
+.theme-toggle:hover{opacity:.8}
+.theme-toggle .ico{font-size:14px;line-height:1}
+.shell{display:grid;grid-template-columns:256px 1fr;min-height:calc(100vh - 156px)}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:calc(100vh - 156px);overflow-y:auto}
+.main-area{padding:28px 28px 60px;overflow-y:auto;max-width:900px}
+.s-head{padding:14px 14px 8px;border-bottom:1px solid var(--border)}
+.s-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.dept-list{padding:6px}
+.dept-btn{width:100%;text-align:left;background:none;border:none;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r-sm);cursor:pointer;transition:background .12s;margin-bottom:1px;font-family:'DM Sans',sans-serif}
+.dept-btn:hover{background:var(--bg3)}
+.dept-btn.active{background:var(--bg3);box-shadow:inset 2px 0 0 var(--gold)}
+.dept-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.dept-name{font-size:12.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.3}
+.dept-count{font-size:10px;color:var(--dim);display:block;margin-top:1px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;gap:14px;padding:40px}
+.welcome-icon{font-size:42px;opacity:.2}
+.welcome-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--muted)}
+.welcome-text{font-size:13px;color:var(--dim);max-width:300px;line-height:1.65;font-weight:300}
+.dept-header{margin-bottom:24px}
+.dept-header .icon-lg{font-size:30px;margin-bottom:10px}
+.dept-header h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--h-title);margin-bottom:8px}
+.dept-header .desc{font-size:13px;color:var(--muted);font-weight:300;line-height:1.65;max-width:600px;margin-bottom:12px}
+.dept-tags{display:flex;gap:6px;flex-wrap:wrap}
+.dept-tag{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
+.sec-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:22px 0 8px 2px}
+.rules-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:4px}
+table.rules{width:100%;border-collapse:collapse}
+table.rules tr{border-bottom:1px solid var(--border)}
+table.rules tr:last-child{border-bottom:none}
+table.rules tr:hover{background:rgba(255,255,255,0.02)}
+table.rules td{padding:9px 12px;vertical-align:top;font-size:12px}
+.rule-id-cell{white-space:nowrap;min-width:160px}
+.rule-id-cell a{font-weight:600;color:var(--h-title);border-bottom:1px dotted var(--dim);padding-bottom:1px;transition:color .15s,border-color .15s;font-size:12px}
+.rule-id-cell a:hover{color:var(--gold);border-color:var(--gold)}
+.rt{color:var(--text);font-weight:400}
+.rn{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;line-height:1.45;font-style:italic}
+.rule-badge-cell{text-align:right;white-space:nowrap}
+.badge-ir{background:var(--ir-bg);border:1px solid var(--ir-bd);color:var(--ir);font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.05em;display:inline-block}
+.badge-amc{background:var(--amc-bg);border:1px solid var(--amc-bd);color:var(--amc);font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.05em;display:inline-block}
+@media(max-width:680px){.shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;max-height:220px}.main-area{padding:20px 14px 40px}header{padding:28px 16px}}
+</style>
+</head>
+<body>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:11px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)">
+  <a href="index.html" style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--h-title);text-decoration:none">
+    <div style="width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.6);animation:pulse 2.5s ease-in-out infinite"></div>
+    airopsref.eu
+  </a>
+  <div style="display:flex;align-items:center;gap:6px">
+    <a href="framework.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">Framework</a>
+    <a href="dept-navigator.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--gold-l);background:var(--gold-bg);border:1px solid var(--gold-bd);text-decoration:none">IR Navigator</a>
+    <a href="icao-mapping.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">ICAO ↔ EASA</a>
+    <a href="definitions.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">Definitions</a>
+    <a href="assistant.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">✦ AI Assistant</a>
+  </div>
+</nav>
+<header>
+  <div class="badge">✈ EASA Air OPS — Reg. 965/2012</div>
+  <div class="header-top">
+    <div>
+      <h1>Department <em>IR Navigator</em></h1>
+      <p>Select your department to see all applicable EASA Implementing Rules, with direct links into the Easy Access Rules.</p>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+      <span class="ico" id="themeIco">☀</span>
+      <span id="themeLbl">Light mode</span>
+    </button>
+  </div>
+</header>
+<div class="shell">
+  <div class="sidebar">
+    <div class="s-head"><div class="s-label">Departments</div></div>
+    <div class="dept-list" id="deptList"></div>
+  </div>
+  <div class="main-area" id="mainPanel">
+    <div class="welcome">
+      <div class="welcome-icon">✈</div>
+      <div class="welcome-title">Select a department</div>
+      <div class="welcome-text">Click any department on the left to see its applicable EASA Implementing Rules with direct links into the Easy Access Rules.</div>
+    </div>
+  </div>
+</div>
+<script>
+const EAR='https://www.easa.europa.eu/en/easy-access-rules/4e4220/ERULES-1963177438-';
+const IDS={
+  'ORO.GEN.110':11876,'ORO.GEN.115':11930,'ORO.GEN.120':11934,'ORO.GEN.125':11942,'ORO.GEN.130':11950,
+  'ORO.GEN.135':11974,'ORO.GEN.140':11978,'ORO.GEN.150':11982,'ORO.GEN.155':11994,'ORO.GEN.160':11998,
+  'ORO.GEN.200':12010,'ORO.GEN.200A':20409,'ORO.GEN.205':12107,'ORO.GEN.210':12123,'ORO.GEN.215':12135,
+  'ORO.GEN.220':12140,'ORO.GEN.310':15043,'ORO.GEN.315':24043,
+  'ORO.AOC.100':12152,'ORO.AOC.105':12166,'ORO.AOC.130':12216,'ORO.AOC.135':11873,'ORO.AOC.140':11891,'ORO.AOC.150':11900,
+  'ORO.MLR.100':11979,'ORO.MLR.101':12003,'ORO.MLR.105':12008,'ORO.MLR.110':12076,'ORO.MLR.115':12088,
+  'ORO.SEC.100':12102,
+  'ORO.FC.005':12110,'ORO.FC.100':12114,'ORO.FC.105':12122,'ORO.FC.115':12150,'ORO.FC.120':12196,
+  'ORO.FC.125':12204,'ORO.FC.130':12212,'ORO.FC.135':11857,'ORO.FC.140':11860,'ORO.FC.145':11863,
+  'ORO.FC.146':18289,'ORO.FC.200':11875,'ORO.FC.202':11888,'ORO.FC.205':11892,'ORO.FC.215':11899,
+  'ORO.FC.220':11907,'ORO.FC.230':11960,'ORO.FC.231':18290,
+  'ORO.CC.100':12038,'ORO.CC.115':12046,'ORO.CC.120':12049,'ORO.CC.125':12053,'ORO.CC.130':12057,
+  'ORO.CC.200':12077,'ORO.CC.205':12080,'ORO.CC.215':12083,'ORO.CC.250':12086,
+  'ORO.FTL.100':11953,'ORO.FTL.105':11956,'ORO.FTL.110':11959,'ORO.FTL.115':11962,'ORO.FTL.120':11966,
+  'ORO.FTL.200':11969,'ORO.FTL.205':11972,'ORO.FTL.210':11975,'ORO.FTL.215':11978,'ORO.FTL.220':11981,
+  'ORO.FTL.225':11984,'ORO.FTL.230':11987,
+  'CAT.GEN.MPA.100':12395,'CAT.GEN.MPA.105':12398,'CAT.GEN.MPA.115':12402,'CAT.GEN.MPA.125':12409,
+  'CAT.GEN.MPA.130':12413,'CAT.GEN.MPA.131':12416,'CAT.GEN.MPA.135':12420,'CAT.GEN.MPA.140':12424,
+  'CAT.GEN.MPA.145':12427,'CAT.GEN.MPA.195':12450,
+  'CAT.OP.MPA.100':12453,'CAT.OP.MPA.105':12456,'CAT.OP.MPA.110':12459,'CAT.OP.MPA.115':12462,
+  'CAT.OP.MPA.125':12465,'CAT.OP.MPA.130':12469,'CAT.OP.MPA.131':12472,'CAT.OP.MPA.150':12484,
+  'CAT.OP.MPA.155':12488,'CAT.OP.MPA.170':12494,'CAT.OP.MPA.175':12497,'CAT.OP.MPA.180':12500,
+  'CAT.OP.MPA.185':12509,'CAT.OP.MPA.195':12515,'CAT.OP.MPA.205':12521,'CAT.OP.MPA.210':12524,
+  'CAT.POL.MAB.100':12466,'CAT.IDE.A.100':12527,
+};
+function u(id){const s=IDS[id];return s?EAR+s:'https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations';}
+
+const D=[
+  {id:'am',icon:'👔',c:'var(--gold)',cbg:'var(--gold-bg)',cbd:'var(--gold-bd)',label:'Accountable Manager',
+   desc:'Personally accountable to ILT for the entire organisation. Signs the Safety Policy and is responsible for all nominated persons and overall compliance.',
+   tags:['ORO.AOC','ORO.GEN'],
+   s:[
+    {h:'Organisation & Certification',r:[
+      {id:'ORO.AOC.100',t:'IR',title:'Application for an AOC',note:'AM signs the AOC application to ILT'},
+      {id:'ORO.AOC.135',t:'IR',title:'Nominated persons — personnel requirements',note:'AM appoints all NPs (NP OPS, NP Safety, etc.) and is responsible for their suitability'},
+      {id:'ORO.GEN.210',t:'IR',title:'Personnel requirements',note:'Adequate numbers of qualified staff — a core AOC condition'},
+      {id:'ORO.GEN.215',t:'IR',title:'Facility requirements'},
+      {id:'ORO.AOC.140',t:'IR',title:'Facility requirements — AOC specific'},
+    ]},
+    {h:'Management & Changes',r:[
+      {id:'ORO.GEN.130',t:'IR',title:'Changes related to an AOC holder',note:'AM must notify / obtain approval from ILT for significant changes'},
+      {id:'ORO.GEN.135',t:'IR',title:'Continued validity of an AOC'},
+      {id:'ORO.GEN.140',t:'IR',title:'Access — must allow ILT inspectors access at all times'},
+      {id:'ORO.GEN.150',t:'IR',title:'Findings — must address ILT findings within agreed timelines'},
+    ]},
+    {h:'Safety Management',r:[
+      {id:'ORO.GEN.200',t:'IR',title:'Management system (SMS)',note:'AM signs and owns the Safety Policy — the most important single obligation'},
+      {id:'ORO.GEN.200A',t:'IR',title:'Information security management system (ISMS)'},
+    ]},
+  ]},
+  {id:'flightops',icon:'✈️',c:'var(--ops)',cbg:'var(--ops-bg)',cbd:'var(--ops-bd)',label:'Flight Operations / OCC',
+   desc:'Covers the NP OPS (Nominated Person Operations), FOOs/dispatchers, flight planning and operational control. The most extensively regulated area in Air OPS.',
+   tags:['ORO.GEN','ORO.FC','ORO.MLR','CAT.OP','ORO.FTL'],
+   s:[
+    {h:'Operator Responsibilities & OM',r:[
+      {id:'ORO.GEN.110',t:'IR',title:'Operator responsibilities',note:'(c) specifically covers operational control and the FOO/dispatcher role'},
+      {id:'ORO.MLR.100',t:'IR',title:'Operations Manual — general'},
+      {id:'ORO.MLR.101',t:'IR',title:'Operations Manual — structure for CAT operations'},
+      {id:'ORO.MLR.105',t:'IR',title:'Minimum Equipment List (MEL)'},
+      {id:'ORO.MLR.110',t:'IR',title:'Journey log'},
+      {id:'ORO.MLR.115',t:'IR',title:'Record-keeping'},
+    ]},
+    {h:'Flight Crew Composition',r:[
+      {id:'ORO.FC.005',t:'IR',title:'Scope — flight crew subpart'},
+      {id:'ORO.FC.100',t:'IR',title:'Composition of flight crew'},
+      {id:'ORO.FC.105',t:'IR',title:'Designation as pilot-in-command / commander'},
+      {id:'ORO.FC.200',t:'IR',title:'Composition of flight crew — CAT specific'},
+      {id:'ORO.FC.202',t:'IR',title:'Single-pilot operations under IFR or at night'},
+    ]},
+    {h:'CAT General Requirements',r:[
+      {id:'CAT.GEN.MPA.100',t:'IR',title:'Means of compliance'},
+      {id:'CAT.GEN.MPA.105',t:'IR',title:'Common requirements for CAT aeroplanes'},
+      {id:'CAT.GEN.MPA.130',t:'IR',title:'Documents and information to be carried on board'},
+      {id:'CAT.GEN.MPA.131',t:'IR',title:'Additional information and forms in OM'},
+      {id:'CAT.GEN.MPA.140',t:'IR',title:'Authority of the commander'},
+      {id:'CAT.GEN.MPA.145',t:'IR',title:'Prohibition on use of psychoactive substances'},
+      {id:'CAT.GEN.MPA.195',t:'IR',title:'Handling of flight recorder recordings'},
+    ]},
+    {h:'Operational Procedures (CAT.OP)',r:[
+      {id:'CAT.OP.MPA.100',t:'IR',title:'Aerodrome operating minima — general'},
+      {id:'CAT.OP.MPA.105',t:'IR',title:'Aerodrome operating minima — instrument approaches'},
+      {id:'CAT.OP.MPA.110',t:'IR',title:'Aerodrome operating minima — visual approaches'},
+      {id:'CAT.OP.MPA.115',t:'IR',title:'Low visibility operations — general operating rules'},
+      {id:'CAT.OP.MPA.125',t:'IR',title:'Pre-flight checks'},
+      {id:'CAT.OP.MPA.130',t:'IR',title:'Fuel / energy — preflight planning'},
+      {id:'CAT.OP.MPA.131',t:'IR',title:'In-flight fuel / energy management — aeroplanes'},
+      {id:'CAT.OP.MPA.150',t:'IR',title:'Meteorological conditions'},
+      {id:'CAT.OP.MPA.155',t:'IR',title:'Ice and other contaminants — pre-flight procedures'},
+      {id:'CAT.OP.MPA.170',t:'IR',title:'Take-off conditions'},
+      {id:'CAT.OP.MPA.175',t:'IR',title:'Approach and landing conditions'},
+      {id:'CAT.OP.MPA.180',t:'IR',title:'Commencement and continuation of approach'},
+      {id:'CAT.OP.MPA.185',t:'IR',title:'Destination alternate aerodromes'},
+      {id:'CAT.OP.MPA.195',t:'IR',title:'Fuel / energy policy'},
+    ]},
+    {h:'Flight Time Limitations',r:[
+      {id:'ORO.FTL.100',t:'IR',title:'Applicability'},
+      {id:'ORO.FTL.105',t:'IR',title:'Operator responsibilities — FTL'},
+      {id:'ORO.FTL.110',t:'IR',title:'Flight crew responsibilities — FTL'},
+      {id:'ORO.FTL.115',t:'IR',title:'Fatigue management training'},
+      {id:'ORO.FTL.120',t:'IR',title:'Fatigue risk management'},
+      {id:'ORO.FTL.200',t:'IR',title:'Maximum flight times and duty periods'},
+      {id:'ORO.FTL.205',t:'IR',title:'Minimum rest periods'},
+      {id:'ORO.FTL.210',t:'IR',title:'Standby'},
+      {id:'ORO.FTL.215',t:'IR',title:'Augmented flight crew'},
+      {id:'ORO.FTL.220',t:'IR',title:"Unforeseen circumstances — commander's discretion"},
+      {id:'ORO.FTL.225',t:'IR',title:'Record-keeping — FTL'},
+      {id:'ORO.FTL.230',t:'IR',title:'Scheduling policy'},
+    ]},
+  ]},
+  {id:'safety',icon:'🛡️',c:'var(--gm)',cbg:'var(--gm-bg)',cbd:'var(--gm-bd)',label:'Safety & Compliance (SMS)',
+   desc:'The Safety Manager runs the SMS and the compliance monitoring programme. Every occurrence, hazard and internal audit is governed here.',
+   tags:['ORO.GEN.200'],
+   s:[
+    {h:'Safety Management System',r:[
+      {id:'ORO.GEN.200',t:'IR',title:'Management system (SMS)',note:'This rule IS the entire SMS obligation: safety policy, SRM, safety assurance, safety promotion, compliance monitoring'},
+      {id:'ORO.GEN.200A',t:'IR',title:'Information security management system (ISMS)',note:'New in Rev. 24 — must be integrated with or alongside the SMS'},
+      {id:'ORO.GEN.155',t:'IR',title:'Immediate reaction to a safety problem'},
+      {id:'ORO.GEN.160',t:'IR',title:'Occurrence reporting',note:'Feeds into EU Reg. 376/2014 on mandatory occurrence reporting'},
+      {id:'ORO.GEN.150',t:'IR',title:'Findings — responding to ILT findings'},
+    ]},
+    {h:'Records & Changes',r:[
+      {id:'ORO.GEN.130',t:'IR',title:'Changes related to an AOC holder',note:'Compliance must assess whether changes require ILT notification or approval'},
+      {id:'ORO.GEN.220',t:'IR',title:'Record-keeping — organisational'},
+      {id:'ORO.MLR.115',t:'IR',title:'Record-keeping — operational'},
+      {id:'ORO.AOC.130',t:'IR',title:'Flight data monitoring (FDM) — aeroplanes',note:'FDM programme; Safety owns the data analysis and trend reporting'},
+    ]},
+  ]},
+  {id:'camo',icon:'🔧',c:'var(--pers)',cbg:'var(--pers-bg)',cbd:'var(--pers-bd)',label:'CAMO',
+   desc:'Plans and manages all maintenance, monitors ADs, manages the MEL and issues the ARC. Primary regulation is Reg. 1321/2014; below are the Air OPS interface points.',
+   tags:['1321/2014','Part-CAMO','Part-M'],
+   s:[
+    {h:'Air OPS Interface — Airworthiness',r:[
+      {id:'ORO.MLR.105',t:'IR',title:'Minimum Equipment List (MEL)',note:'CAMO manages MEL approval with ILT; all deferrals tracked here'},
+      {id:'ORO.AOC.140',t:'IR',title:'Facility requirements',note:'CAMO must maintain suitable facilities as an AOC condition'},
+      {id:'CAT.GEN.MPA.125',t:'IR',title:'Airworthiness of aircraft',note:'Operator (via CAMO) must ensure valid CofA, ARC and CRS before each flight'},
+      {id:'CAT.GEN.MPA.130',t:'IR',title:'Documents on board — includes tech log / maintenance release'},
+      {id:'CAT.IDE.A.100',t:'IR',title:'Equipment and instruments — applicability',note:'CAMO ensures required equipment is installed and serviceable per Part-M'},
+      {id:'CAT.POL.MAB.100',t:'IR',title:'Mass and balance — general',note:'CAMO owns the mass & balance documentation for each registered aircraft'},
+    ]},
+  ]},
+  {id:'maint',icon:'🔩',c:'var(--ir)',cbg:'var(--ir-bg)',cbd:'var(--ir-bd)',label:'Maintenance (Part-145)',
+   desc:'Physically performs all maintenance and issues the Certificate of Release to Service. Primary regulation is Reg. 1321/2014 Part-145 and Part-66.',
+   tags:['1321/2014','Part-145','Part-66'],
+   s:[
+    {h:'Air OPS Interface Rules',r:[
+      {id:'ORO.MLR.105',t:'IR',title:'Minimum Equipment List (MEL)',note:'Maintenance rectifies defects per MEL; CAMO manages MEL approval'},
+      {id:'CAT.GEN.MPA.125',t:'IR',title:'Airworthiness — operator must ensure valid CRS before dispatch'},
+      {id:'CAT.GEN.MPA.130',t:'IR',title:'Documents on board — includes the maintenance release / tech log'},
+      {id:'CAT.IDE.A.100',t:'IR',title:'Equipment and instruments — maintenance ensures serviceability'},
+    ]},
+  ]},
+  {id:'ato',icon:'🎓',c:'var(--aero)',cbg:'var(--aero-bg)',cbd:'var(--aero-bd)',label:'ATO (Training Organisation)',
+   desc:'Delivers type ratings, recurrent training and operator conversion under Reg. 1178/2011 Part-ORA. Below are the Air OPS training rules the ATO is the vehicle for.',
+   tags:['1178/2011','Part-ORA','Part-FCL'],
+   s:[
+    {h:'Training Requirements Delivered via the ATO',r:[
+      {id:'ORO.FC.115',t:'IR',title:'CRM training — all operators'},
+      {id:'ORO.FC.120',t:'IR',title:'Operator conversion training — all operators'},
+      {id:'ORO.FC.125',t:'IR',title:'Differences training, familiarisation, equipment & procedure training'},
+      {id:'ORO.FC.130',t:'IR',title:'Recurrent training and checking — all operators'},
+      {id:'ORO.FC.135',t:'IR',title:'Pilot qualification to operate in either seat'},
+      {id:'ORO.FC.140',t:'IR',title:'Operation on more than one type or variant'},
+      {id:'ORO.FC.145',t:'IR',title:'Provision of training, checking and assessment'},
+      {id:'ORO.FC.146',t:'IR',title:'Personnel providing training, checking and assessment'},
+    ]},
+    {h:'CAT-Specific Training',r:[
+      {id:'ORO.FC.205',t:'IR',title:'Command course — CAT operations'},
+      {id:'ORO.FC.215',t:'IR',title:'Initial operator CRM training — CAT'},
+      {id:'ORO.FC.220',t:'IR',title:'Operator conversion training and checking — CAT'},
+      {id:'ORO.FC.230',t:'IR',title:'Recurrent training and checking — CAT'},
+      {id:'ORO.FC.231',t:'IR',title:'Evidence-based training (EBT) — if applicable'},
+    ]},
+  ]},
+  {id:'cabin',icon:'🧑‍✈️',c:'var(--pers)',cbg:'var(--pers-bg)',cbd:'var(--pers-bd)',label:'Cabin Crew',
+   desc:'Composition, attestations, training and type-specific requirements. Less prominent in pure cargo but applies where supernumeraries or mixed ops are involved.',
+   tags:['ORO.CC','CAT.GEN'],
+   s:[
+    {h:'Cabin Crew Subpart (ORO.CC)',r:[
+      {id:'ORO.CC.100',t:'IR',title:'Number and composition of cabin crew'},
+      {id:'ORO.CC.115',t:'IR',title:'Cabin crew attestation'},
+      {id:'ORO.CC.120',t:'IR',title:'Initial safety training'},
+      {id:'ORO.CC.125',t:'IR',title:'Aircraft type specific training and operator conversion training'},
+      {id:'ORO.CC.130',t:'IR',title:'Differences training'},
+      {id:'ORO.CC.200',t:'IR',title:'Composition of cabin crew — CAT specific'},
+      {id:'ORO.CC.205',t:'IR',title:'Designation of senior cabin crew member'},
+      {id:'ORO.CC.215',t:'IR',title:'Training programmes and related documentation'},
+      {id:'ORO.CC.250',t:'IR',title:'Operation on more than one aircraft type or variant'},
+    ]},
+    {h:'Related Rules',r:[
+      {id:'CAT.GEN.MPA.115',t:'IR',title:'Personnel other than cabin crew in passenger compartment'},
+      {id:'ORO.FTL.100',t:'IR',title:'FTL applicability — also covers cabin crew'},
+    ]},
+  ]},
+  {id:'ground',icon:'📦',c:'var(--airw)',cbg:'var(--airw-bg)',cbd:'var(--airw-bd)',label:'Ground Ops / Load Control',
+   desc:'Mass & balance, cargo acceptance, dangerous goods, de-icing co-ordination and turnaround management. Critical for cargo operators.',
+   tags:['CAT.OP','CAT.POL','ORO.GEN'],
+   s:[
+    {h:'Ground Operations',r:[
+      {id:'ORO.GEN.110',t:'IR',title:'Operator responsibilities',note:'(e) covers ground ops procedures incl. operations in absence of flight crew'},
+      {id:'ORO.GEN.315',t:'IR',title:'Operational procedures for ground handling',note:'Dedicated ground handling rule, introduced in Rev. 24'},
+      {id:'CAT.OP.MPA.205',t:'IR',title:'Refuelling / defuelling with passengers on board'},
+      {id:'CAT.OP.MPA.210',t:'IR',title:'Ground de-icing / anti-icing of aeroplanes'},
+    ]},
+    {h:'Mass & Balance',r:[
+      {id:'CAT.POL.MAB.100',t:'IR',title:'Mass and balance — general',note:'Every flight requires a load sheet signed by an authorised person'},
+    ]},
+    {h:'Dangerous Goods (Cargo)',r:[
+      {id:'CAT.GEN.MPA.135',t:'IR',title:'Dangerous goods — transport by air',note:'ICAO TI and IATA DGR are the operational standards; this rule mandates compliance with them'},
+      {id:'CAT.GEN.MPA.130',t:'IR',title:'Documents on board — includes DG declaration and NOTOC'},
+    ]},
+    {h:'Pre-flight & Fuel',r:[
+      {id:'CAT.OP.MPA.125',t:'IR',title:'Pre-flight checks — commander must verify aircraft readiness'},
+      {id:'CAT.OP.MPA.130',t:'IR',title:'Fuel / energy — preflight planning'},
+      {id:'CAT.OP.MPA.131',t:'IR',title:'In-flight fuel / energy management'},
+    ]},
+  ]},
+  {id:'security',icon:'🔒',c:'var(--amc)',cbg:'var(--amc-bg)',cbd:'var(--amc-bd)',label:'Security',
+   desc:'Main security framework is EC Reg. 300/2008 enforced by NCTV. Air OPS contributes the flight deck security and crew security training requirements.',
+   tags:['ORO.SEC','Reg.300/2008'],
+   s:[
+    {h:'Air OPS Security Rules',r:[
+      {id:'ORO.SEC.100',t:'IR',title:'Flight crew compartment security — aeroplanes',note:'Locked flight deck door, monitoring of door area from both pilot stations'},
+      {id:'ORO.GEN.110',t:'IR',title:'Operator responsibilities',note:'(a) requires a security training programme for all crew members'},
+    ]},
+    {h:'Note',r:[
+      {id:'CAT.GEN.MPA.100',t:'IR',title:'Primary security obligations are in EC Reg. 300/2008 (NCTV, not ILT)',note:'The National Civil Aviation Security Programme (NCASP) is the main reference — contact NCTV for NL-specific requirements'},
+    ]},
+  ]},
+  {id:'it',icon:'💻',c:'var(--atm)',cbg:'var(--atm-bg)',cbd:'var(--atm-bd)',label:'IT / Information Security',
+   desc:'ORO.GEN.200A (ISMS) was introduced in Revision 24 of Air OPS in response to NIS2 and cyber threats to avionics, EFBs and OCC systems.',
+   tags:['ORO.GEN.200A'],
+   s:[
+    {h:'Information Security',r:[
+      {id:'ORO.GEN.200A',t:'IR',title:'Information security management system (ISMS)',note:'Introduced in Rev. 24 (March 2026). An ISMS must be established proportionate to the risk to aviation safety'},
+      {id:'ORO.GEN.200',t:'IR',title:'Management system (SMS)',note:'The ISMS must be integrated with or alongside the SMS'},
+      {id:'ORO.GEN.130',t:'IR',title:'Changes — including IT system changes that affect safety',note:'Cyber incidents affecting safety must be notified to ILT'},
+    ]},
+  ]},
+  {id:'hr',icon:'🧑‍💼',c:'var(--gold)',cbg:'var(--gold-bg)',cbd:'var(--gold-bd)',label:'HR / Personnel',
+   desc:'No single IR governs HR directly, but staffing levels, training records and fatigue rostering all carry regulatory obligations.',
+   tags:['ORO.GEN','ORO.FTL'],
+   s:[
+    {h:'Personnel & Staffing',r:[
+      {id:'ORO.GEN.210',t:'IR',title:'Personnel requirements',note:'Adequate numbers of qualified staff — a core AOC condition'},
+      {id:'ORO.AOC.135',t:'IR',title:'Nominated persons — qualifications and ILT approval',note:'HR manages recruitment and the ILT approval process for all NPs'},
+      {id:'ORO.GEN.200',t:'IR',title:'Management system',note:'(a)(4) requires adequate resources including personnel and finances'},
+    ]},
+    {h:'Training Records',r:[
+      {id:'ORO.MLR.115',t:'IR',title:'Record-keeping',note:'Training records for all crew must be retained for defined periods'},
+      {id:'ORO.FC.145',t:'IR',title:'Provision of training, checking and assessment — records'},
+      {id:'ORO.CC.215',t:'IR',title:'Cabin crew training programmes and documentation'},
+    ]},
+    {h:'Fatigue & Rostering',r:[
+      {id:'ORO.FTL.105',t:'IR',title:'Operator responsibilities — FTL',note:'HR rostering must comply with FTL limits at all times'},
+      {id:'ORO.FTL.110',t:'IR',title:'Flight crew responsibilities — FTL'},
+      {id:'ORO.FTL.115',t:'IR',title:'Fatigue management training'},
+      {id:'ORO.FTL.230',t:'IR',title:'Scheduling policy'},
+    ]},
+  ]},
+];
+
+function toggleTheme(){
+  const light=document.documentElement.getAttribute('data-theme')==='light';
+  document.documentElement.setAttribute('data-theme',light?'':'light');
+  document.getElementById('themeIco').textContent=light?'☀':'🌙';
+  document.getElementById('themeLbl').textContent=light?'Light mode':'Dark mode';
+}
+
+let cur=null;
+function renderSidebar(){
+  const list=document.getElementById('deptList');
+  list.innerHTML='';
+  D.forEach(d=>{
+    const count=d.s.reduce((n,s)=>n+s.r.length,0);
+    const btn=document.createElement('button');
+    btn.className='dept-btn'+(cur===d.id?' active':'');
+    btn.innerHTML=`<div class="dept-icon" style="background:${d.cbg};border:1px solid ${d.cbd}">${d.icon}</div><div style="min-width:0"><span class="dept-name">${d.label}</span><span class="dept-count">${count} rules</span></div>`;
+    btn.onclick=()=>{cur=d.id;renderSidebar();renderMain(d);};
+    list.appendChild(btn);
+  });
+}
+
+function renderMain(d){
+  const total=d.s.reduce((n,s)=>n+s.r.length,0);
+  let h=`<div class="dept-header"><div class="icon-lg">${d.icon}</div><h2>${d.label}</h2><div class="desc">${d.desc}</div><div class="dept-tags">${d.tags.map(t=>`<span class="dept-tag" style="background:${d.cbg};border:1px solid ${d.cbd};color:${d.c}">${t}</span>`).join('')}<span class="dept-tag" style="background:var(--ir-bg);border:1px solid var(--ir-bd);color:var(--ir)">${total} rules</span></div></div>`;
+  d.s.forEach(sec=>{
+    h+=`<div class="sec-label">${sec.h}</div><div class="rules-wrap"><table class="rules">`;
+    sec.r.forEach(r=>{
+      const bc=r.t==='IR'?'badge-ir':r.t==='AMC'?'badge-amc':'badge-ir';
+      h+=`<tr><td class="rule-id-cell"><a href="${u(r.id)}" target="_blank" rel="noopener">${r.id} <span style="font-size:9px;opacity:.45">↗</span></a></td><td><div class="rt">${r.title}</div>${r.note?`<div class="rn">${r.note}</div>`:''}</td><td class="rule-badge-cell"><span class="${bc}">${r.t}</span></td></tr>`;
+    });
+    h+=`</table></div>`;
+  });
+  document.getElementById('mainPanel').innerHTML=h;
+}
+
+renderSidebar();
+</script>
+</body>
+</html>

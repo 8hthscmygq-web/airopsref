@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air OPS Definitions — airopsref.eu</title>
+<meta name="description" content="Searchable definitions from Annex I of Regulation (EU) No 965/2012 Air Operations. Every legal term used across Parts ARO, ORO, CAT and SPA explained in one place.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1520;--bg2:#111e30;--bg3:#162540;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --gold:#c8a84b;--gold-l:#e4c96a;
+  --gold-bg:rgba(200,168,75,0.12);--gold-bd:rgba(200,168,75,0.28);
+  --text:#dde3ef;--muted:#7a8aaa;--dim:#3d4d68;--h-title:#ffffff;
+  --ops:#3a8fd4;--ops-bg:rgba(58,143,212,0.10);--ops-bd:rgba(58,143,212,0.30);
+  --airw:#3ab87a;--airw-bg:rgba(58,184,122,0.10);--airw-bd:rgba(58,184,122,0.30);
+  --pers:#8a68d4;--pers-bg:rgba(138,104,212,0.10);--pers-bd:rgba(138,104,212,0.30);
+  --ir:#e05555;--ir-bg:rgba(224,85,85,0.12);--ir-bd:rgba(224,85,85,0.35);
+  --r:10px;--r-sm:6px;
+}
+[data-theme="light"]{
+  --bg:#f0f3f8;--bg2:#ffffff;--bg3:#e6eaf3;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a2440;--muted:#4a5878;--dim:#8a9ab8;--h-title:#0c1520;
+  --gold:#9a7418;--gold-l:#7a5c10;
+  --gold-bg:rgba(154,116,24,0.09);--gold-bd:rgba(154,116,24,0.22);
+  --ops:#1660a8;--ops-bg:rgba(22,96,168,0.08);--ops-bd:rgba(22,96,168,0.22);
+  --airw:#1a7a42;--airw-bg:rgba(26,122,66,0.08);--airw-bd:rgba(26,122,66,0.22);
+  --pers:#5c38a8;--pers-bg:rgba(92,56,168,0.08);--pers-bd:rgba(92,56,168,0.22);
+  --ir:#c02828;--ir-bg:rgba(192,40,40,0.08);--ir-bd:rgba(192,40,40,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
+a{text-decoration:none;color:inherit}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:11px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.nav-logo{display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--h-title)}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.6);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--bg3)}
+.nav-link.active{color:var(--gold-l);background:var(--gold-bg);border:1px solid var(--gold-bd)}
+.theme-btn{padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:none;color:var(--muted);font-family:inherit;font-size:11px;cursor:pointer;transition:all .15s}
+.theme-btn:hover{border-color:var(--gold-bd);color:var(--gold-l)}
+
+.wrap{max-width:860px;margin:0 auto;padding:28px 24px 80px}
+
+.page-header{margin-bottom:24px}
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--h-title);margin-bottom:8px;line-height:1.2}
+.page-title em{color:var(--gold);font-style:normal}
+.page-desc{font-size:13px;font-weight:300;color:var(--muted);max-width:580px;line-height:1.7}
+
+.controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+#defSearch{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:9px 14px 9px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+#defSearch:focus{border-color:var(--gold-bd);box-shadow:0 0 0 3px rgba(200,168,75,.07)}
+#defSearch::placeholder{color:var(--dim)}
+.alpha-bar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px}
+.alpha-btn{padding:4px 9px;border-radius:6px;font-size:11px;font-weight:600;color:var(--muted);background:var(--bg2);border:1px solid var(--border);cursor:pointer;transition:all .15s;font-family:inherit}
+.alpha-btn:hover{border-color:var(--border2);color:var(--text)}
+.alpha-btn.active{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold-l)}
+.result-count{font-size:11px;color:var(--dim);white-space:nowrap}
+
+.def-list{display:flex;flex-direction:column;gap:0}
+.def-section-head{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:16px 0 6px;border-bottom:1px solid var(--border);margin-bottom:0}
+.def-item{padding:14px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start;transition:background .1s}
+.def-item:hover{background:var(--bg2);margin:0 -12px;padding-left:12px;padding-right:12px;border-radius:var(--r-sm)}
+.def-item.hidden{display:none}
+.def-term{font-size:13px;font-weight:600;color:var(--h-title);line-height:1.4}
+.def-ref{font-size:10px;font-weight:500;color:var(--gold);letter-spacing:.06em;margin-top:3px}
+.def-body{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+.def-body strong{color:var(--text);font-weight:500}
+.def-body em{color:var(--ops);font-style:normal;font-size:11px;font-weight:600;background:var(--ops-bg);border:1px solid var(--ops-bd);padding:1px 6px;border-radius:4px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+.def-note{font-size:11px;color:var(--dim);margin-top:5px;padding-top:5px;border-top:1px solid var(--border);font-style:italic}
+
+mark{background:rgba(200,168,75,0.22);color:var(--gold-l);border-radius:2px;padding:0 1px}
+[data-theme="light"] mark{background:rgba(154,116,24,0.18);color:var(--gold)}
+
+@media(max-width:600px){
+  .def-item{grid-template-columns:1fr}
+  .wrap{padding:16px 14px 60px}
+  nav .nav-link:not(.active):not(:last-child){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><div class="nav-dot"></div>airopsref.eu</a>
+  <div class="nav-links">
+    <a href="framework.html" class="nav-link">Framework</a>
+    <a href="dept-navigator.html" class="nav-link">IR Navigator</a>
+    <a href="icao-mapping.html" class="nav-link">ICAO ↔ EASA</a>
+    <a href="definitions.html" class="nav-link active">Definitions</a>
+    <a href="assistant.html" class="nav-link">✦ AI Assistant</a>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Annex I · Reg. 965/2012</div>
+    <h1 class="page-title">Air OPS <em>Definitions</em></h1>
+    <p class="page-desc">Every legal term defined in Annex I of Regulation (EU) No 965/2012, as amended through Revision 24 (March 2026). These definitions apply across all Parts — ARO, ORO, CAT, NCC, NCO, SPO and SPA.</p>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" id="defSearch" placeholder="Search terms or definitions — e.g. commander, alternate, CAT…" autocomplete="off" spellcheck="false">
+    </div>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+
+  <div class="alpha-bar" id="alphaBar"></div>
+
+  <div class="def-list" id="defList"></div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var l=document.documentElement.getAttribute('data-theme')==='light';
+  document.documentElement.setAttribute('data-theme',l?'':'light');
+  document.getElementById('themeBtn').textContent=l?'☀ Light':'🌙 Dark';
+  localStorage.setItem('airopsref-theme',l?'':'light');
+}
+(function(){
+  var t=localStorage.getItem('airopsref-theme');
+  if(t==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('themeBtn').textContent='🌙 Dark';}
+})();
+
+var DEFS = [
+  // A
+  {t:'Accelerate-stop distance available (ASDA)',r:'Annex I §1',d:'The length of the take-off run available plus the length of the stopway, if provided.',note:'Used in performance calculations for rejected take-off planning. See CAT.POL.MAB.105.'},
+  {t:'Acceptable means of compliance (AMC)',r:'Annex I §2',d:'Non-binding standards adopted by EASA to illustrate means of compliance with the Basic Regulation and its delegated and implementing acts.',note:'Following AMC creates a presumption of compliance with the corresponding IR. Operators may use alternative means of compliance.'},
+  {t:'Accountable manager',r:'Annex I §3',d:'The manager who, on behalf of the certificated organisation, is ultimately responsible for conducting all activities of the organisation in accordance with the applicable requirements.',note:'Must be accepted by the NAA. Corresponds to the role defined in ORO.GEN.210.'},
+  {t:'Adequate aerodrome',r:'Annex I §4',d:'An aerodrome that the operator considers satisfactory, having regard to the applicable performance requirements and runway characteristics, and which is available at the anticipated time of use.',note:'Relevant for EDTO/ETOPS planning and diversion planning under CAT.OP.MPA.'},
+  {t:'Aerodrome',r:'Annex I §5',d:'A defined area on land or water (including any buildings, installations and equipment) intended to be used either wholly or in part for the arrival, departure and surface movement of aircraft.'},
+  {t:'Aerodrome operating minima',r:'Annex I §6',d:'The limits of usability of an aerodrome for: take-off, expressed in terms of runway visual range and/or visibility, and, if necessary, cloud conditions; landing with precision approach and landing operations, expressed in terms of visibility and/or runway visual range and decision altitude/height; landing with approach and landing operations with vertical guidance, expressed in terms of visibility and/or runway visual range and decision altitude/height; landing with non-precision approach and landing operations, expressed in terms of visibility and/or runway visual range, minimum descent altitude/height and, if necessary, cloud conditions.',note:'Established by the operator and approved by the NAA. See CAT.OP.MPA.110.'},
+  {t:'Air operations certificate (AOC)',r:'Annex I §7',d:'A certificate issued to an operator authorising that operator to use aircraft for commercial air transport operations.',note:'Required for any CAT operation under Reg. 965/2012. Issued by the competent authority of the member state where the operator has its principal place of business.'},
+  {t:'Air operator',r:'Annex I §8',d:'A natural or legal person, operating or proposing to operate one or more aircraft.'},
+  {t:'Air traffic control (ATC)',r:'Annex I §9',d:'A service provided for the purpose of preventing collisions between aircraft, and on the manoeuvring area between aircraft and obstructions, and expediting and maintaining an orderly flow of air traffic.'},
+  {t:'Aircraft',r:'Annex I §10',d:'Any machine that can derive support in the atmosphere from the reactions of the air other than the reactions of the air against the earth\'s surface.',note:'Includes aeroplanes, helicopters, balloons, airships, gliders and powered-lift aircraft within EASA scope.'},
+  {t:'Alternate aerodrome',r:'Annex I §11',d:'An aerodrome to which an aircraft may proceed when it becomes either impossible or inadvisable to proceed to or to land at the aerodrome of intended landing where the necessary services and facilities are available, the required performance requirements can be met and which is operational at the expected time of use.',note:'Includes take-off, en-route, destination and ETOPS alternates. See CAT.OP.MPA.140.'},
+  {t:'Approach and landing operation',r:'Annex I §12',d:'The operation from the beginning of an instrument approach procedure to the point where the runway visual range (RVR) requirements no longer apply, if the approach is continued, or the landing is performed, or the missed approach is executed.'},
+  {t:'Approach ban',r:'Annex I §13',d:'A restriction to continue an approach below 1 000 ft above the aerodrome elevation when the reported RVR/visibility is below the applicable minimum.'},
+
+  // B
+  {t:'Balloon',r:'Annex I §14',d:'A non-power-driven lighter-than-air aircraft.'},
+  {t:'Basic instrument flight procedures',r:'Annex I §15',d:'Instrument flight procedures requiring no more than basic instrument flight capability as defined in applicable airworthiness requirements.',note:'Relevant for MEL and minimum equipment considerations.'},
+
+  // C
+  {t:'Cabin crew member',r:'Annex I §16',d:'An appropriately qualified crew member, other than a flight crew member, who is assigned by an operator to perform duties related to the safety of passengers and flight during operations.',note:'Subject to training and qualification requirements in Part-CC (ORO.CC).'},
+  {t:'Category I (CAT I) operation',r:'Annex I §17',d:'A precision instrument approach and landing using ILS, MLS, GLS or PAR with a decision height (DH) not lower than 60 m (200 ft) and with either a visibility not less than 800 m or a runway visual range not less than 550 m.'},
+  {t:'Category II (CAT II) operation',r:'Annex I §18',d:'A precision instrument approach and landing operation using ILS or MLS with a decision height lower than 60 m (200 ft) but not lower than 30 m (100 ft) and a runway visual range not less than 300 m.',note:'Requires SPA.LVO approval.'},
+  {t:'Category IIIA operation',r:'Annex I §19',d:'A precision instrument approach and landing operation using ILS or MLS with a decision height lower than 30 m (100 ft) or no decision height, and a runway visual range not less than 175 m.',note:'Requires SPA.LVO approval.'},
+  {t:'Category IIIB operation',r:'Annex I §20',d:'A precision instrument approach and landing operation using ILS or MLS with a decision height lower than 15 m (50 ft) or no decision height, and a runway visual range less than 175 m but not less than 50 m.',note:'Requires SPA.LVO approval.'},
+  {t:'Ceiling',r:'Annex I §21',d:'The height above the ground or water of the base of the lowest layer of cloud below 6 000 m (20 000 ft) covering more than half the sky.'},
+  {t:'Commander',r:'Annex I §22',d:'The pilot designated as being in command and charged with the safe conduct of the flight.',note:'Also referred to as Pilot-in-Command (PIC). Responsibilities defined in CAT.GEN.MPA.100.'},
+  {t:'Commercial air transport (CAT)',r:'Annex I §23',d:'An aircraft operation to transport passengers, cargo or mail for remuneration or other valuable consideration.',note:'Subject to the full requirements of Reg. 965/2012 including Parts ARO, ORO, CAT and SPA.'},
+  {t:'Competent authority',r:'Annex I §24',d:'The authority designated by the Member State having jurisdiction over the subject matter, being the authority responsible for the certification, oversight and enforcement related to operators holding or applying for an air operator certificate.',note:'In the Netherlands: ILT. In Germany: LBA. In France: DGAC. In Ireland: IAA.'},
+  {t:'Controlled flight into terrain (CFIT)',r:'Annex I §25',d:'An undesired contact with terrain, water or an obstacle which occurs when the aircraft is under positive control but is flown unintentionally into terrain, water or an obstacle.',note:'Primary purpose of GPWS/TAWS requirements in CAT.IDE.A.155.'},
+  {t:'Crew member',r:'Annex I §26',d:'A person assigned by an operator to duty on an aircraft during a flight duty period.',note:'Includes both flight crew members and cabin crew members.'},
+  {t:'Critical engine',r:'Annex I §27',d:'The engine whose failure would most adversely affect the performance or handling qualities of an aircraft.'},
+
+  // D
+  {t:'Decision altitude (DA) / Decision height (DH)',r:'Annex I §28',d:'A specified altitude or height in a 3D instrument approach operation at which a missed approach must be initiated if the required visual reference to continue the approach to land has not been established.',note:'DA refers to altitude above MSL; DH refers to height above threshold elevation.'},
+  {t:'Dispatch',r:'Annex I §29',d:'The release for flight of an aircraft by an authorised person, e.g. the commander or a flight operations officer, after ensuring that the aircraft is airworthy, properly loaded, and that all applicable requirements have been met.'},
+  {t:'Dry lease',r:'Annex I §30',d:'A leasing arrangement whereby an aircraft is provided without crew.',note:'Subject to approval requirements under ORO.AOC.110.'},
+
+  // E
+  {t:'Emergency localiser transmitter (ELT)',r:'Annex I §31',d:'A generic term describing equipment which broadcasts distinctive signals on designated frequencies and, depending on application, may be activated by impact, or be manually activated, an ELT may be any of the following: automatic fixed ELT (ELT(AF)); automatic portable ELT (ELT(AP)); automatic deployable ELT (ELT(AD)); survival ELT (ELT(S)).'},
+  {t:'En-route alternate (ERA)',r:'Annex I §32',d:'An adequate aerodrome at which an aircraft would be able to land after experiencing an abnormal or emergency condition while en-route.',note:'Relevant for EDTO planning under SPA.ETOPS.'},
+  {t:'Extended range operations (EDTO)',r:'Annex I §33',d:'Any operation by an aeroplane with two or more turbine engines where the flight time at the one-engine-inoperative cruise speed (in still air) from the closest adequate en-route alternate aerodrome to any point on the route exceeds the EDTO threshold time.',note:'Replaces the earlier ETOPS terminology. Requires SPA.EDTO approval.'},
+
+  // F
+  {t:'Final reserve fuel',r:'Annex I §34',d:'The amount of fuel required to fly for 30 minutes at holding speed at 1 500 ft (450 m) above aerodrome elevation in standard conditions for aeroplanes (or 20 minutes for helicopters), calculated with the estimated landing mass at the destination alternate aerodrome, or at the destination aerodrome when no destination alternate is required.',note:'Minimum fuel below which a MAYDAY FUEL emergency should be declared. See CAT.OP.MPA.150.'},
+  {t:'Flight crew member',r:'Annex I §35',d:'A licensed crew member charged with duties essential to the operation of an aircraft during a flight duty period.',note:'Subject to licensing requirements under Reg. 1178/2011 and operator training under ORO.FC.'},
+  {t:'Flight data monitoring (FDM)',r:'Annex I §36',d:'The proactive and non-punitive use of digital flight data from routine operations to improve aviation safety.',note:'Required for CAT operators by ORO.AOC.130 (Rev. 24 updates AMC/GM). Key component of the SMS.'},
+  {t:'Flight duty period (FDP)',r:'Annex I §37',d:'A period which commences when a crew member is required to report for duty, which includes a flight or a series of flights, and which finishes when the aircraft finally comes to rest and the engines are shut down, at the end of the last flight on which the crew member is a crew member.',note:'Subject to maximum limitations under ORO.FTL.210.'},
+  {t:'Flight operations officer / Flight dispatcher',r:'Annex I §38',d:'A person exercising operational control, assisting the pilot-in-command in the safe conduct of the flight and, if applicable, joint responsibility with the pilot-in-command for the operation of the flight.',note:'Referred to as FOO. Role defined in ORO.GEN.110. Training requirements in ORO.GEN.210.'},
+  {t:'Flight plan',r:'Annex I §39',d:'Specified information provided to air traffic services units, relative to an intended flight or portion of a flight of an aircraft.'},
+  {t:'Flight time',r:'Annex I §40',d:'For aeroplanes: the time from the moment an aeroplane first moves under its own power for the purpose of taking off until the moment it finally comes to rest at the end of the flight.',note:'Also called block time or chock-to-chock time. Basis for FTL calculations.'},
+
+  // G
+  {t:'Go-around',r:'Annex I §41',d:'A manoeuvre conducted by an aircraft in the vicinity of the destination aerodrome when an approach cannot be continued to a landing.',note:'Procedure must be defined in the OM-A and briefed by the crew.'},
+  {t:'Ground proximity warning system (GPWS)',r:'Annex I §42',d:'A system that provides the flight crew with timely and distinctive warning of potentially hazardous proximity to terrain.',note:'Required equipment under CAT.IDE.A.155. Modern versions also called TAWS (Terrain Awareness and Warning System).'},
+
+  // H
+  {t:'Handling agent',r:'Annex I §43',d:'An agency which performs on behalf of the operator some or all of the latter\'s functions including receiving, loading, unloading, transferring or other processing of passengers or cargo.',note:'Subject to operator oversight under ORO.GEN.205 and ORO.GEN.315 (new in Rev. 24).'},
+  {t:'Hazardous material (dangerous goods)',r:'Annex I §44',d:'Articles or substances which are capable of posing a risk to health, safety, property or the environment and which are shown in the list of dangerous goods in the Technical Instructions for the Safe Transport of Dangerous Goods by Air or which are classified according to those Instructions.',note:'Carriage requires SPA.DG approval and procedures in OM-A.'},
+
+  // I
+  {t:'IFR flight',r:'Annex I §45',d:'A flight conducted in accordance with the instrument flight rules.'},
+  {t:'Instrument approach operation',r:'Annex I §46',d:'An approach and landing using instruments for navigation guidance based on an instrument approach procedure.',note:'Types include precision (PA), approach with vertical guidance (APV) and non-precision (NPA).'},
+  {t:'Instrument meteorological conditions (IMC)',r:'Annex I §47',d:'Meteorological conditions expressed in terms of visibility, distance from cloud, and ceiling, less than the minima specified for visual meteorological conditions.'},
+
+  // J
+  {t:'Journey log',r:'Annex I §48',d:'A document in which details of the flight, crew members\' duties, and technical events are recorded.',note:'Required to be maintained under CAT.GEN.MPA.100.'},
+
+  // L
+  {t:'Landing decision point (LDP)',r:'Annex I §49',d:'The point used in determining landing performance from which, a landing can be made or from which a balked landing procedure can be initiated.',note:'Used in Performance Class 1 helicopter operations.'},
+  {t:'Landing distance available (LDA)',r:'Annex I §50',d:'The length of the runway which is declared available by the appropriate authority and suitable for the ground run of an aeroplane landing.',note:'Key figure for landing performance calculations. See CAT.POL.MAB.130.'},
+  {t:'Low visibility operations (LVO)',r:'Annex I §51',d:'Approach and landing operations with a DH below 200 ft or an RVR less than 550 m, and take-off operations with an RVR less than 400 m.',note:'Requires SPA.LVO special approval.'},
+  {t:'Low visibility procedures (LVP)',r:'Annex I §52',d:'Procedures applied at an aerodrome for the purpose of ensuring safe operations during Category II and III approaches and low visibility take-offs.',note:'Aerodrome must have approved LVPs in place for LVO operations.'},
+
+  // M
+  {t:'Maintenance',r:'Annex I §53',d:'Any one or combination of overhaul, repair, inspection, replacement, modification or defect rectification of an aircraft or component, with the exception of pre-flight inspection.'},
+  {t:'Maximum certificated take-off mass (MCTOM)',r:'Annex I §54',d:'The maximum take-off mass for which the aircraft has been certificated for take-off.'},
+  {t:'Minimum descent altitude (MDA) / Minimum descent height (MDH)',r:'Annex I §55',d:'A specified altitude or height in a 2D instrument approach operation or circling approach operation below which descent must not be made without the required visual reference.',note:'Used in non-precision approaches. MDA is referenced to MSL; MDH to threshold elevation.'},
+  {t:'Minimum equipment list (MEL)',r:'Annex I §56',d:'A list which provides for the operation of aircraft, subject to specified conditions, with particular equipment inoperative, prepared by an operator in conformity with, or more restrictive than, the MMEL established for the aircraft type.',note:'Required by CAT.IDE.A.105 and ORO.MLR.105. Must be approved by the NAA.'},
+
+  // N
+  {t:'Navigation specification',r:'Annex I §57',d:'A set of aircraft and flight crew requirements needed to support performance-based navigation (PBN) operations within a defined airspace.',note:'Includes RNAV and RNP specifications.'},
+  {t:'Night',r:'Annex I §58',d:'The hours between the end of evening civil twilight and the beginning of morning civil twilight or such other period between sunset and sunrise as may be prescribed by the appropriate authority.',note:'Definition is relevant for night rating requirements and certain operational limitations.'},
+  {t:'Non-precision approach (NPA)',r:'Annex I §59',d:'An instrument approach and landing which utilises lateral guidance but does not utilise vertical guidance.',note:'Examples: VOR, NDB, LNAV approaches.'},
+
+  // O
+  {t:'Obstacle clearance altitude (OCA) / Obstacle clearance height (OCH)',r:'Annex I §60',d:'The lowest altitude or height above the elevation of the relevant runway threshold or the aerodrome elevation as applicable, used in establishing compliance with appropriate obstacle clearance criteria.'},
+  {t:'Operational control',r:'Annex I §61',d:'The exercise of authority over the initiation, continuation, diversion or termination of a flight in the interest of the safety of the aircraft and the regularity and efficiency of the flight.',note:'Shared between commander and FOO/dispatcher under ORO.GEN.110.'},
+  {t:'Operational flight plan (OFP)',r:'Annex I §62',d:'The operator\'s plan for the safe conduct of the flight based on considerations of aeroplane performance, other operating limitations and relevant expected conditions on the route to be followed and at the aerodromes concerned.',note:'Prepared by the FOO/dispatcher. Required by CAT.OP.MPA.100. Different from the ATC flight plan.'},
+  {t:'Operations manual (OM)',r:'Annex I §63',d:'A manual containing procedures, instructions and guidance for use by operational personnel in the execution of their duties.',note:'Required by ORO.MLR.100. Structured in four parts: OM-A (general), OM-B (aircraft), OM-C (routes), OM-D (training).'},
+  {t:'Operations specifications',r:'Annex I §64',d:'Documents forming part of the air operator certificate, listing the aircraft types and variants authorised to be operated, the authorised kinds of operation and the areas or routes where applicable.'},
+
+  // P
+  {t:'Performance-based navigation (PBN)',r:'Annex I §65',d:'Area navigation based on performance requirements for aircraft operating along an ATS route, on an instrument approach procedure or in a designated airspace.',note:'Encompasses both RNAV and RNP specifications.'},
+  {t:'Pilot-in-command (PIC)',r:'Annex I §66',d:'The pilot designated as being in command and charged with the safe conduct of a flight.',note:'Same as Commander. See Annex I §22.'},
+  {t:'Pre-flight inspection',r:'Annex I §67',d:'The inspection carried out before flight to ensure that the aircraft is fit for the intended flight.',note:'Responsibility of the commander. Not considered maintenance.'},
+  {t:'Pressurised aircraft',r:'Annex I §68',d:'An aircraft equipped with means to maintain at altitude a cabin pressure greater than ambient pressure, providing a comfortable environment for occupants.'},
+
+  // R
+  {t:'Regulated take-off mass (RTOM)',r:'Annex I §69',d:'The maximum take-off mass at which the operator is permitted to operate the aircraft at a specific aerodrome, taking into account performance limitations.',note:'May be less than MCTOM depending on runway length, obstacle environment, climb gradient, temperature and altitude.'},
+  {t:'Required navigation performance (RNP)',r:'Annex I §70',d:'A statement of the navigation performance necessary for operation within a defined airspace. A critical component is the requirement for on-board monitoring and alerting capability.',note:'Unlike RNAV, RNP includes mandatory on-board performance monitoring.'},
+  {t:'Rest period',r:'Annex I §71',d:'A continuous and defined period of time, subsequent to and/or prior to duty, during which crew members are free of all duties.',note:'Minimum rest requirements defined in ORO.FTL.235.'},
+  {t:'Runway visual range (RVR)',r:'Annex I §72',d:'The range over which the pilot of an aircraft on the centreline of a runway can see the runway surface markings or the lights delineating the runway or identifying its centreline.',note:'Primary metric for low visibility operations. Measured by transmissometers at touchdown, mid-point and stop-end.'},
+
+  // S
+  {t:'Safety management system (SMS)',r:'Annex I §73',d:'A systematic approach to managing safety, including the necessary organisational structures, accountability, responsibilities, policies and procedures.',note:'Required by ORO.GEN.200. Must include safety policy, safety risk management, safety assurance and safety promotion.'},
+  {t:'Single pilot operations',r:'Annex I §74',d:'Operations conducted by a single pilot, as authorised.',note:'Subject to specific conditions and equipment requirements.'},
+  {t:'Stabilised approach',r:'Annex I §75',d:'An approach conducted in accordance with techniques and criteria specified in the operations manual, to ensure the aircraft is in a defined stable state at a prescribed height above the threshold.',note:'Operator must define stable approach criteria in the OM-A.'},
+  {t:'Standard instrument departure (SID)',r:'Annex I §76',d:'A designated IFR departure route linking the aerodrome or a specified runway thereof with a specified significant point, normally on an ATS route, at which the en-route phase of a flight commences.'},
+  {t:'Standard terminal arrival route (STAR)',r:'Annex I §77',d:'A designated IFR arrival route linking a significant point, normally on an ATS route, with a point from which a published instrument approach procedure can be commenced.'},
+  {t:'State of registry',r:'Annex I §78',d:'The State on whose register the aircraft is entered.',note:'For EU-registered aircraft, this is an EASA member state. For non-EU aircraft operating in EU airspace, a TCO authorisation is required.'},
+
+  // T
+  {t:'Take-off alternate',r:'Annex I §79',d:'An alternate aerodrome at which an aircraft can land should this become necessary shortly after take-off and it is not possible to use the aerodrome of departure.',note:'Required when departure aerodrome weather is below landing minima or within defined distance limits. See CAT.OP.MPA.135.'},
+  {t:'Take-off distance available (TODA)',r:'Annex I §80',d:'The length of the take-off run available plus the length of the clearway, if provided.',note:'See CAT.POL.MAB.105 for take-off performance calculations.'},
+  {t:'Take-off run available (TORA)',r:'Annex I §81',d:'The length of runway declared available and suitable for the ground run of an aeroplane taking off.',note:'Equivalent to the declared runway length unless a stopway or clearway extends it.'},
+  {t:'Third country operator (TCO)',r:'Annex I §82',d:'An operator of aircraft registered in a State that is not a Member State of the European Union, operating into, within or out of the European Union.',note:'Subject to TCO authorisation under Reg. 452/2014 before operating in EU airspace.'},
+  {t:'Touchdown zone (TDZ)',r:'Annex I §83',d:'The portion of a runway, beyond the threshold, where it is intended landing aeroplanes first contact the runway.',note:'RVR at TDZ is the most critical of the three RVR measurement points for approach minima.'},
+
+  // U
+  {t:'Unstabilised approach',r:'Annex I §84',d:'An approach that does not meet the stabilised approach criteria as specified in the operations manual.',note:'Requires a go-around unless safely continued in exceptional circumstances. See OM-A stabilised approach criteria.'},
+
+  // V
+  {t:'VFR flight',r:'Annex I §85',d:'A flight conducted in accordance with the visual flight rules.'},
+  {t:'VFR over the top',r:'Annex I §86',d:'The operation of an aircraft over a cloud layer with visual reference maintained to the top of the cloud layer.',note:'Permitted in certain conditions — check applicable national regulations.'},
+  {t:'Visibility',r:'Annex I §87',d:'Visibility for aeronautical purposes is the greater of: the greatest distance at which a black object of suitable dimensions, situated near the ground, can be seen and recognized when observed against a bright background; the greatest distance at which lights in the vicinity of 1 000 candelas can be seen and identified against an unlit background.',note:'Distinguished from RVR which is measured electronically on the runway surface.'},
+  {t:'Visual meteorological conditions (VMC)',r:'Annex I §88',d:'Meteorological conditions expressed in terms of visibility, distance from cloud, and ceiling, equal to or better than specified minima.',note:'Minima vary with airspace class. Below VMC minima, IFR rules apply.'},
+
+  // W
+  {t:'Wet lease',r:'Annex I §89',d:'A leasing arrangement whereby an aircraft is provided with at least a minimum flight crew.',note:'Subject to approval requirements and operational control considerations under ORO.AOC.110. See also wet lease-in of third country operators under ORO.AOC.115.'},
+  {t:'Wet runway',r:'Annex I §90',d:'A runway is considered wet when the runway surface is covered with water, or equivalent, with a depth less than or equal to 3 mm, or when there is sufficient moisture on the runway surface to cause it to appear reflective, but without significant areas of standing water.',note:'Landing distances increase on wet runways. See CAT.POL.MAB.130 wet runway factors.'},
+];
+
+var currentLetter = 'all';
+var currentSearch = '';
+
+function getFirstLetter(term) {
+  return term.charAt(0).toUpperCase();
+}
+
+function buildAlphaBar() {
+  var letters = new Set(DEFS.map(d => getFirstLetter(d.t)));
+  var bar = document.getElementById('alphaBar');
+  var allBtn = document.createElement('button');
+  allBtn.className = 'alpha-btn active';
+  allBtn.textContent = 'All';
+  allBtn.onclick = function(){ setLetter('all', this); };
+  bar.appendChild(allBtn);
+  ['A','B','C','D','E','F','G','H','I','J','L','M','N','O','P','R','S','T','U','V','W'].forEach(function(l){
+    if (!letters.has(l)) return;
+    var btn = document.createElement('button');
+    btn.className = 'alpha-btn';
+    btn.textContent = l;
+    btn.onclick = function(){ setLetter(l, this); };
+    bar.appendChild(btn);
+  });
+}
+
+function setLetter(l, btn) {
+  currentLetter = l;
+  document.querySelectorAll('.alpha-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  render();
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function render() {
+  var list = document.getElementById('defList');
+  list.innerHTML = '';
+  var q = currentSearch.toLowerCase();
+  var count = 0;
+  var lastLetter = '';
+
+  DEFS.forEach(function(def) {
+    var letter = getFirstLetter(def.t);
+    if (currentLetter !== 'all' && letter !== currentLetter) return;
+    var haystack = (def.t + ' ' + def.d + ' ' + (def.note || '')).toLowerCase();
+    if (q && haystack.indexOf(q) === -1) return;
+
+    // Section header
+    if (letter !== lastLetter) {
+      lastLetter = letter;
+      var h = document.createElement('div');
+      h.className = 'def-section-head';
+      h.textContent = letter;
+      list.appendChild(h);
+    }
+
+    count++;
+    var item = document.createElement('div');
+    item.className = 'def-item';
+    item.innerHTML =
+      '<div>' +
+        '<div class="def-term">' + highlight(def.t, q) + '</div>' +
+        '<div class="def-ref">' + def.r + '</div>' +
+      '</div>' +
+      '<div>' +
+        '<div class="def-body">' + highlight(def.d, q) + (def.note ? '<div class="def-note">' + highlight(def.note, q) + '</div>' : '') + '</div>' +
+      '</div>';
+    list.appendChild(item);
+  });
+
+  var cnt = document.getElementById('resultCount');
+  cnt.textContent = (q || currentLetter !== 'all') ? count + ' definition' + (count !== 1 ? 's' : '') : '';
+}
+
+buildAlphaBar();
+render();
+
+var searchTimer;
+document.getElementById('defSearch').addEventListener('input', function() {
+  clearTimeout(searchTimer);
+  var v = this.value.trim();
+  searchTimer = setTimeout(function() {
+    currentSearch = v;
+    currentLetter = 'all';
+    document.querySelectorAll('.alpha-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelector('.alpha-btn').classList.add('active');
+    render();
+  }, 200);
+});
+document.getElementById('defSearch').addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { this.value = ''; currentSearch = ''; render(); }
+});
+</script>
+</body>
+</html>
