@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Find every EASA Air OPS implementing rule by department. Flight Ops, Safety, CAMO, Ground Ops, Cabin Crew and more — with direct EAR links and practical guidance.">
+<meta property="og:title" content="Department IR Navigator — airopsref.eu">
+<meta property="og:description" content="Find every EASA Air OPS implementing rule by department. Flight Ops, Safety, CAMO, Ground Ops, Cabin Crew and more — with direct EAR links and practical guidance.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://airopsref.eu/dept-navigator.html">
+<link rel="canonical" href="https://airopsref.eu/dept-navigator.html">
+<script>
+(function(){var t=localStorage.getItem('airopsref-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department IR Navigator — EASA Air OPS | airopsref.eu</title>
+<meta name="description" content="Find every EASA Air OPS implementing rule by department. Select Flight Ops, Safety, CAMO, Ground Ops, Cabin Crew and more — with direct EAR links.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1520;--bg2:#111e30;--bg3:#162540;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --gold:#c8a84b;--gold-l:#e4c96a;--gold-bg:rgba(200,168,75,0.12);--gold-bd:rgba(200,168,75,0.28);
+  --text:#dde3ef;--muted:#7a8aaa;--dim:#5a6d8a;--h-title:#ffffff;
+  --ops:#3a8fd4;--ops-bg:rgba(58,143,212,0.10);--ops-bd:rgba(58,143,212,0.30);
+  --pers:#8a68d4;--pers-bg:rgba(138,104,212,0.10);--pers-bd:rgba(138,104,212,0.30);
+  --airw:#3ab87a;--airw-bg:rgba(58,184,122,0.10);--airw-bd:rgba(58,184,122,0.30);
+  --aero:#d47a3a;--aero-bg:rgba(212,122,58,0.10);--aero-bd:rgba(212,122,58,0.30);
+  --atm:#2ab8c8;--atm-bg:rgba(42,184,200,0.10);--atm-bd:rgba(42,184,200,0.30);
+  --ir:#e05555;--ir-bg:rgba(224,85,85,0.12);--ir-bd:rgba(224,85,85,0.35);
+  --amc:#4a9fd4;--amc-bg:rgba(74,159,212,0.12);--amc-bd:rgba(74,159,212,0.35);
+  --gm:#5ab870;--gm-bg:rgba(90,184,112,0.12);--gm-bd:rgba(90,184,112,0.35);
+  --r:8px;--r-sm:5px;
+}
+[data-theme="light"]{
+  --bg:#f0f3f8;--bg2:#ffffff;--bg3:#e6eaf3;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a2440;--muted:#4a5878;--dim:#6a7a98;--h-title:#1a2440;
+  --gold:#9a7418;--gold-l:#7a5c10;--gold-bg:rgba(154,116,24,0.09);--gold-bd:rgba(154,116,24,0.22);
+  --ops:#1660a8;--ops-bg:rgba(22,96,168,0.08);--ops-bd:rgba(22,96,168,0.22);
+  --pers:#5c38a8;--pers-bg:rgba(92,56,168,0.08);--pers-bd:rgba(92,56,168,0.22);
+  --airw:#1a7a42;--airw-bg:rgba(26,122,66,0.08);--airw-bd:rgba(26,122,66,0.22);
+  --aero:#b05820;--aero-bg:rgba(176,88,32,0.08);--aero-bd:rgba(176,88,32,0.22);
+  --atm:#0e8898;--atm-bg:rgba(14,136,152,0.08);--atm-bd:rgba(14,136,152,0.22);
+  --ir:#c02828;--ir-bg:rgba(192,40,40,0.08);--ir-bd:rgba(192,40,40,0.25);
+  --amc:#1660a8;--amc-bg:rgba(22,96,168,0.08);--amc-bd:rgba(22,96,168,0.25);
+  --gm:#1a7a42;--gm-bg:rgba(26,122,66,0.08);--gm-bd:rgba(26,122,66,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.shell{display:grid;grid-template-columns:256px 1fr;min-height:calc(100vh - 57px)}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;display:flex;flex-direction:column}
+.main-area{padding:28px 32px 60px}
+.s-head{padding:12px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.s-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:8px}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);opacity:.35;pointer-events:none}
+#navSearch{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:6px 8px 6px 28px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .15s}
+#navSearch:focus{border-color:var(--gold-bd)}
+#navSearch::placeholder{color:var(--dim)}
+.dept-list{padding:6px;flex:1}
+.dept-btn{width:100%;text-align:left;background:none;border:none;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r-sm);cursor:pointer;transition:background .12s;margin-bottom:1px;font-family:'DM Sans',sans-serif}
+.dept-btn:hover{background:var(--bg3)}
+.dept-btn.active{background:var(--bg3);box-shadow:inset 2px 0 0 var(--gold)}
+.dept-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.dept-name{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.3}
+.dept-count{font-size:10px;color:var(--dim);display:block;margin-top:1px}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:4px}
+.overview-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s}
+.overview-card:hover{background:var(--bg3);border-color:var(--border2)}
+.oc-icon{font-size:20px;margin-bottom:8px}
+.oc-name{font-size:13px;font-weight:600;color:var(--h-title);margin-bottom:3px}
+.oc-desc{font-size:11px;color:var(--muted);font-weight:300;line-height:1.4}
+.oc-count{font-size:10px;color:var(--dim);margin-top:6px}
+.dept-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.dept-header h2{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:var(--h-title);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.dept-desc{font-size:13px;color:var(--muted);font-weight:300;line-height:1.65;max-width:640px;margin-bottom:10px}
+.dept-tags{display:flex;gap:6px;flex-wrap:wrap}
+.dept-tag{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase}
+.sec-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:20px 0 6px 2px}
+.rules-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:4px}
+table.rules{width:100%;border-collapse:collapse}
+table.rules tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.rules tr:last-child{border-bottom:none}
+table.rules tr:hover{background:var(--bg3)}
+table.rules td{padding:9px 12px;vertical-align:top;font-size:12px}
+.rule-id-cell{white-space:nowrap;width:165px}
+.rule-id-cell a{font-weight:600;color:var(--h-title);border-bottom:1px dotted var(--dim);padding-bottom:1px;transition:color .15s,border-color .15s;font-size:12px}
+.rule-id-cell a:hover{color:var(--gold);border-color:var(--gold)}
+.rt{color:var(--text);font-weight:400}
+.rn{font-size:11px;color:var(--muted);font-weight:300;margin-top:3px;line-height:1.5}
+.rule-new{font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--ir-bg);border:1px solid var(--ir-bd);color:var(--ir);letter-spacing:.05em;margin-left:6px;vertical-align:middle}
+.search-info{font-size:11px;color:var(--dim);margin-bottom:12px;padding:8px 10px;background:var(--bg2);border-radius:var(--r-sm);border:1px solid var(--border)}
+mark{background:rgba(200,168,75,0.22);color:var(--gold-l);border-radius:2px;padding:0 1px}
+[data-theme="light"] mark{background:rgba(154,116,24,0.18);color:var(--gold)}
+@media(max-width:680px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;max-height:240px;top:0}
+  .main-area{padding:18px 16px 40px}
+  .overview-grid{grid-template-columns:1fr 1fr}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:3px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:11px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)">
+  <a href="index.html" style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--h-title);text-decoration:none">
+    <div style="width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.6);animation:pulse 2.5s ease-in-out infinite"></div>
+    airopsref.eu
+  </a>
+  <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+    <a href="framework.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">Framework</a>
+    <a href="dept-navigator.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--gold-l);background:var(--gold-bg);border:1px solid var(--gold-bd);text-decoration:none">IR Navigator</a>
+    <a href="icao-mapping.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">ICAO ↔ EASA</a>
+    <a href="definitions.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">Definitions</a>
+    <a href="assistant.html" style="padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--bg3)';this.style.color='var(--text)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">✦ AI Assistant</a>
+    <button onclick="toggleTheme()" id="themeBtn" aria-label="Switch to light theme" style="padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:none;color:var(--muted);font-family:inherit;font-size:11px;cursor:pointer;transition:all .15s">☀ Light</button>
+  </div>
+</nav>
+
+<div class="shell">
+  <div class="sidebar">
+    <div class="s-head">
+      <span class="s-label">Departments</span>
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9.5 9.5L12.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <label for="navSearch" class="sr-only">Search departments and rules</label>
+        <input type="text" id="navSearch" placeholder="Search rules…" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="dept-list" id="deptList"></div>
+  </div>
+  <div class="main-area" id="mainPanel"></div>
+</div>
+
+<script>
+var EAR='https://www.easa.europa.eu/en/easy-access-rules/4e4220/ERULES-1963177438-';
+var IDS={
+  'ORO.GEN.110':11876,'ORO.GEN.115':11930,'ORO.GEN.120':11934,'ORO.GEN.125':11942,'ORO.GEN.130':11950,
+  'ORO.GEN.135':11974,'ORO.GEN.140':11978,'ORO.GEN.150':11982,'ORO.GEN.155':11994,'ORO.GEN.160':11998,
+  'ORO.GEN.200':12010,'ORO.GEN.200A':20409,'ORO.GEN.205':12107,'ORO.GEN.210':12123,'ORO.GEN.215':12135,
+  'ORO.GEN.220':12140,'ORO.GEN.310':15043,'ORO.GEN.315':24043,
+  'ORO.AOC.100':12152,'ORO.AOC.105':12166,'ORO.AOC.130':12216,'ORO.AOC.135':11873,'ORO.AOC.140':11891,'ORO.AOC.150':11900,
+  'ORO.MLR.100':11979,'ORO.MLR.101':12003,'ORO.MLR.105':12008,'ORO.MLR.110':12076,'ORO.MLR.115':12088,
+  'ORO.SEC.100':12102,
+  'ORO.FC.005':12110,'ORO.FC.100':12114,'ORO.FC.105':12122,'ORO.FC.115':12150,'ORO.FC.120':12196,
+  'ORO.FC.125':12204,'ORO.FC.130':12212,'ORO.FC.135':11857,'ORO.FC.140':11860,'ORO.FC.145':11863,
+  'ORO.FC.146':18289,'ORO.FC.200':11875,'ORO.FC.202':11888,'ORO.FC.205':11892,'ORO.FC.215':11899,
+  'ORO.FC.220':11907,'ORO.FC.230':11960,'ORO.FC.231':18290,
+  'ORO.CC.100':12038,'ORO.CC.115':12046,'ORO.CC.120':12049,'ORO.CC.125':12053,'ORO.CC.130':12057,
+  'ORO.CC.200':12077,'ORO.CC.205':12080,'ORO.CC.215':12083,'ORO.CC.250':12086,
+  'ORO.FTL.100':11953,'ORO.FTL.105':11956,'ORO.FTL.110':11959,'ORO.FTL.115':11962,'ORO.FTL.120':11966,
+  'ORO.FTL.200':11969,'ORO.FTL.205':11972,'ORO.FTL.210':11975,'ORO.FTL.215':11978,'ORO.FTL.220':11981,
+  'ORO.FTL.225':11984,'ORO.FTL.230':11987,
+  'CAT.GEN.MPA.100':12395,'CAT.GEN.MPA.105':12398,'CAT.GEN.MPA.115':12402,'CAT.GEN.MPA.125':12409,
+  'CAT.GEN.MPA.130':12413,'CAT.GEN.MPA.131':12416,'CAT.GEN.MPA.135':12420,'CAT.GEN.MPA.140':12424,
+  'CAT.GEN.MPA.145':12427,'CAT.GEN.MPA.195':12450,
+  'CAT.OP.MPA.100':12453,'CAT.OP.MPA.105':12456,'CAT.OP.MPA.110':12459,'CAT.OP.MPA.115':12462,
+  'CAT.OP.MPA.125':12465,'CAT.OP.MPA.130':12469,'CAT.OP.MPA.131':12472,'CAT.OP.MPA.150':12484,
+  'CAT.OP.MPA.155':12488,'CAT.OP.MPA.170':12494,'CAT.OP.MPA.175':12497,'CAT.OP.MPA.180':12500,
+  'CAT.OP.MPA.185':12509,'CAT.OP.MPA.195':12515,'CAT.OP.MPA.205':12521,'CAT.OP.MPA.210':12524,
+  'CAT.POL.MAB.100':12466,'CAT.IDE.A.100':12527,'CAT.IDE.A.105':12533,'CAT.IDE.A.145':12569,
+  'CAT.IDE.A.160':12577,'CAT.IDE.A.185':12607,
+};
+function earlink(id){var s=IDS[id];return s?EAR+s:'https://www.easa.europa.eu/en/document-library/easy-access-rules/online-publications/easy-access-rules-air-operations';}
+
+var D=[
+  {id:'am',icon:'👔',c:'#c8a84b',cbg:'rgba(200,168,75,0.12)',cbd:'rgba(200,168,75,0.28)',label:'Accountable Manager',
+   shortdesc:'AOC holder, safety policy, nominated persons, changes',
+   desc:'Personally accountable to the NAA for the entire organisation. Signs the Safety Policy, appoints all Nominated Persons and is responsible for ensuring the organisation has adequate resources and remains in compliance.',
+   tags:['ORO.AOC','ORO.GEN'],
+   s:[
+    {h:'Organisation & certification',r:[
+      {id:'ORO.AOC.100',title:'Application for an AOC',note:'The AM signs the AOC application. All organisational commitments made in the application are personal obligations of the AM.'},
+      {id:'ORO.AOC.135',title:'Nominated persons — personnel requirements',note:'AM formally appoints NP OPS, NP Safety, NP AIRW and NP GRD. Each appointment requires NAA acceptance and cannot be made unilaterally.'},
+      {id:'ORO.GEN.210',title:'Personnel requirements',note:'Adequate numbers of qualified staff at all times — a core AOC condition. The AM is personally accountable for meeting this.'},
+      {id:'ORO.GEN.215',title:'Facility requirements',note:'Adequate facilities must be maintained as an AOC condition, including briefing rooms, OCC space and document storage.'},
+      {id:'ORO.AOC.140',title:'Facility requirements — AOC specific',note:'Additional facility obligations specific to AOC holders, beyond the general requirements of ORO.GEN.215.'},
+    ]},
+    {h:'Management & changes',r:[
+      {id:'ORO.GEN.130',title:'Changes related to an AOC holder',note:'Significant changes — new aircraft types, new routes, change of AM or any NP, major OM amendments — require prior NAA notification or approval. The AM is accountable for ensuring this happens.'},
+      {id:'ORO.GEN.135',title:'Continued validity of an AOC',note:'The AOC lapses if the organisation no longer meets its conditions. The AM must ensure ongoing compliance at all times, not only at audit.'},
+      {id:'ORO.GEN.140',title:'Access by the authority',note:'The AM must ensure NAA inspectors can access all facilities, aircraft, records and personnel at all times without prior notice. Denial of access is a Level 1 finding.'},
+      {id:'ORO.GEN.150',title:'Findings — responding to NAA audit findings',note:'Level 1 findings require immediate corrective action. Level 2 findings require a corrective action plan within 90 days. The AM is personally responsible for the formal response to the NAA.'},
+    ]},
+    {h:'Safety management',r:[
+      {id:'ORO.GEN.200',title:'Management system (SMS)',note:'The AM signs and owns the Safety Policy — the single most important regulatory document in the operator\'s framework. The AM ensures the SMS has adequate resources, senior management commitment and is properly implemented throughout the organisation.'},
+      {id:'ORO.GEN.200A',title:'Information security management system (ISMS)',note:'New in Rev. 24. The AM is responsible for establishing an ISMS proportionate to the cyber risk to aviation safety. Must be integrated with or alongside the SMS.',isNew:true},
+    ]},
+  ]},
+
+  {id:'flightops',icon:'✈️',c:'#3a8fd4',cbg:'rgba(58,143,212,0.10)',cbd:'rgba(58,143,212,0.30)',label:'Flight Operations / OCC',
+   shortdesc:'NP OPS, dispatchers, flight planning, operational control, FTL',
+   desc:'Covers the NP OPS, FOOs/dispatchers, flight planning, operational control and the Flight Time Limitation scheme. The most extensively regulated area in Air OPS, with obligations spanning Part-ORO, Part-CAT and Subpart FTL.',
+   tags:['ORO.GEN','ORO.FC','ORO.MLR','CAT.OP','ORO.FTL'],
+   s:[
+    {h:'Operator responsibilities & OM',r:[
+      {id:'ORO.GEN.110',title:'Operator responsibilities',note:'Paragraph (c) specifically assigns operational control responsibilities and the FOO/dispatcher role. The NP OPS is responsible for ensuring operational control procedures are in place and followed.'},
+      {id:'ORO.MLR.100',title:'Operations Manual — general requirement',note:'Every CAT operator must have an OM accepted by the NAA. The NP OPS typically owns OM-A (general) and OM-C (routes and aerodromes).'},
+      {id:'ORO.MLR.101',title:'Operations Manual — structure for CAT',note:'Defines the four-part structure: OM-A (general), OM-B (aircraft), OM-C (routes), OM-D (training). Each part has specific mandatory content defined in the AMC.'},
+      {id:'ORO.MLR.105',title:'Minimum Equipment List (MEL)',note:'The MEL must be approved by the NAA and based on the MMEL. Dispatch decisions against the MEL are an OCC/FOO responsibility on every departure.'},
+      {id:'ORO.MLR.110',title:'Journey log',note:'Must be completed for every flight. Contains departure, destination, crew names, departure time, block time and technical remarks. Retention: 3 months minimum.'},
+      {id:'ORO.MLR.115',title:'Record-keeping',note:'Defines retention periods for all operational documents: 3 months for flight logs, 5 years for training records, 15 months for FTL records. OCC is typically responsible for archiving.'},
+    ]},
+    {h:'Flight crew composition',r:[
+      {id:'ORO.FC.005',title:'Scope of the flight crew subpart',note:'Establishes that ORO Subpart FC applies to all flight crew, not only CAT. Relevant when the operator also conducts non-commercial flights on the same AOC.'},
+      {id:'ORO.FC.100',title:'Composition of flight crew',note:'Minimum crew must comply with the AFM and any additional NAA requirements. OCC must verify crew composition against the published flight before release.'},
+      {id:'ORO.FC.105',title:'Designation as pilot-in-command / commander',note:'The operator must formally designate the PIC for each flight. A co-pilot may only act as PIC if qualified per ORO.FC.135 and current in command.'},
+      {id:'ORO.FC.200',title:'Composition of flight crew — CAT',note:'CAT-specific composition requirements, including the requirement for at least two pilots on all CAT operations unless a specific single-pilot approval is held.'},
+      {id:'ORO.FC.202',title:'Single-pilot CAT operations under IFR or at night',note:'Permitted only with specific NAA approval and strict conditions, including an approved single-pilot OM section and dedicated training programme.'},
+    ]},
+    {h:'Operational procedures',r:[
+      {id:'CAT.OP.MPA.100',title:'Aerodrome operating minima — general',note:'Operator must establish minima for every aerodrome used. Minima cannot be lower than published procedure minima without a specific NAA approval (e.g. LVO, SMGCS).'},
+      {id:'CAT.OP.MPA.105',title:'Aerodrome operating minima — instrument approaches',note:'Defines how PA, APV and NPA minima are established. Decision Height (DH) or Minimum Descent Height (MDH), RVR and required visual references are all defined here.'},
+      {id:'CAT.OP.MPA.110',title:'Aerodrome operating minima — visual approaches',note:'Minima for visual approaches and circling. Circling minima are typically higher than straight-in instrument minima and depend on aircraft category.'},
+      {id:'CAT.OP.MPA.115',title:'Low visibility operations — general rules',note:'When RVR is below 550m for landing or 400m for take-off, LVO procedures apply. Requires SPA.LVO approval and the aerodrome must have approved LVPs in force.'},
+      {id:'CAT.OP.MPA.125',title:'Pre-flight checks',note:'Commander must verify the aircraft is airworthy and all documents are on board before each flight. OCC supports by confirming NOTAMs, weather and slot.'},
+      {id:'CAT.OP.MPA.130',title:'Fuel — preflight planning',note:'OFP must include taxi fuel, trip fuel, contingency, alternate and final reserve. The FOO/dispatcher calculates and the commander formally accepts the fuel plan.'},
+      {id:'CAT.OP.MPA.131',title:'In-flight fuel management — aeroplanes',note:'Commander monitors fuel continuously. If fuel falls to final reserve (30 min at holding speed at 1,500 ft), a MAYDAY FUEL must be declared. OCC must be notified immediately.'},
+      {id:'CAT.OP.MPA.150',title:'Meteorological conditions',note:'Flights may not be commenced or continued if weather is below applicable minima. OCC/FOO monitors weather en route and must advise crew of significant deterioration.'},
+      {id:'CAT.OP.MPA.155',title:'Ice and other contaminants',note:'Operator must establish a contamination check procedure. De-icing/anti-icing decisions are made by the commander; OCC confirms fluid availability and holdover times before departure.'},
+      {id:'CAT.OP.MPA.170',title:'Take-off conditions',note:'Commander may only commence take-off if RVR/visibility meets applicable minima. OCC must provide current RVR data when the reported RVR is near or below limits.'},
+      {id:'CAT.OP.MPA.175',title:'Approach and landing conditions',note:'Commander must check that destination weather is forecast to be above minima at ETA. If not, a suitable alternate must be selected. OCC provides updated weather before descent.'},
+      {id:'CAT.OP.MPA.180',title:'Commencement and continuation of approach',note:'An approach may be commenced even if weather is reported below minima. The decision to continue below DA/MDA requires the required visual references to be positively identified.'},
+      {id:'CAT.OP.MPA.185',title:'Destination alternate aerodromes',note:'One or two alternates may be required depending on destination forecast. OCC selects alternates, verifies their serviceability and includes them in the OFP.'},
+      {id:'CAT.OP.MPA.195',title:'Fuel / energy policy',note:'Operator must establish a fuel policy in OM-A. The policy must define how captains can request additional fuel and how OCC responds — including minimum response times before departure.'},
+    ]},
+    {h:'CAT general requirements',r:[
+      {id:'CAT.GEN.MPA.100',title:'Means of compliance — general',note:'Sets the general framework for how operators comply with CAT requirements, including through the OM. Contains the basic obligations that all subsequent CAT rules build on.'},
+      {id:'CAT.GEN.MPA.130',title:'Documents and information to be carried on board',note:'OCC ensures the OFP, weather, NOTAMs and mass & balance are provided before departure. The commander confirms documents are received and on board.'},
+      {id:'CAT.GEN.MPA.140',title:'Authority of the commander',note:'The commander has absolute authority for the safety of the aircraft and its occupants. OCC cannot override a safety decision made by the commander in flight.'},
+      {id:'CAT.GEN.MPA.145',title:'Prohibition on use of psychoactive substances',note:'No crew member may perform duties while under the influence of any psychoactive substance. Operator must have a programme, including random testing, defined in the OM.'},
+      {id:'CAT.GEN.MPA.195',title:'Handling of flight recorder recordings',note:'FDR and CVR recordings must not be erased after an accident or serious incident. Operator must have a data preservation procedure — OCC must be trained to recognise triggering events.'},
+    ]},
+    {h:'Flight time limitations',r:[
+      {id:'ORO.FTL.100',title:'Applicability of the FTL subpart',note:'Subpart FTL applies to all flight crew in CAT. Commercial pressures — including delays, ad hoc charters or late crew changes — cannot justify exceeding FTL limits.'},
+      {id:'ORO.FTL.105',title:'Operator responsibilities — FTL',note:'Operator must establish a rostering policy, publish rosters in advance and ensure no crew member is rostered beyond applicable FDP limits. Non-compliance is the operator\'s responsibility even if the crew member accepts it.'},
+      {id:'ORO.FTL.110',title:'Flight crew responsibilities — FTL',note:'Each crew member is personally responsible for not accepting an assignment if they know they are fatigued. A fatigue report must be possible without fear of reprisal — this is an OM requirement.'},
+      {id:'ORO.FTL.115',title:'Fatigue management training',note:'All flight crew, rostering staff and OCC schedulers who assign duties must receive fatigue management training. Records must be kept for the duration of employment plus 2 years.'},
+      {id:'ORO.FTL.120',title:'Fatigue risk management (FRM)',note:'Operators using FRMS as an alternative to prescriptive limits must have it NAA-approved. FRMS requires a validated fatigue model, data collection and ongoing monitoring programme.'},
+      {id:'ORO.FTL.200',title:'Maximum flight times and duty periods',note:'Max 100 flight hours in 28 consecutive days, 900 in a calendar year, 1,000 in 12 consecutive months. OCC must track all individual crew hours in real time.'},
+      {id:'ORO.FTL.205',title:'Minimum rest periods',note:'Minimum rest before a duty depends on the preceding FDP. Basic minimum is 12 hours. Extended FDPs require proportionally longer rest. Split duties have specific rest requirements.'},
+      {id:'ORO.FTL.210',title:'Standby',note:'Airport standby begins at the required reporting time. Home standby counts at a reduced rate. All standby assignments must be recorded. OCC must track when standby converts to actual duty.'},
+      {id:'ORO.FTL.215',title:'Augmented flight crew',note:'Three or four pilots allow extended FDPs. In-flight rest arrangements and minimum rest facility standards must be defined in the OM. OCC must verify augmented crew are qualified.'},
+      {id:'ORO.FTL.220',title:"Unforeseen circumstances — commander's discretion",note:"Commander may extend FDP by up to 2 hours in genuinely unforeseen circumstances. Extension must be recorded and reported to the operator. OCC must file an occurrence report if safety may have been affected."},
+      {id:'ORO.FTL.225',title:'Record-keeping — FTL',note:'All FDP, flight time, standby and rest data must be retained for 15 months. OCC must be able to produce individual crew records on request by the NAA within 24 hours.'},
+      {id:'ORO.FTL.230',title:'Scheduling policy',note:'The OM must contain a scheduling policy covering how rosters are constructed, how split duties are managed, minimum notice periods and how crew can report fatigue without penalty.'},
+    ]},
+  ]},
+
+  {id:'safety',icon:'🛡️',c:'#5ab870',cbg:'rgba(90,184,112,0.12)',cbd:'rgba(90,184,112,0.35)',label:'Safety & Compliance (SMS)',
+   shortdesc:'SMS, ISMS, occurrence reporting, FDM, internal audits',
+   desc:'The Safety Manager and Compliance Monitoring Manager own the SMS, the internal audit programme, occurrence reporting and the FDM programme. All regulatory obligations in this space flow from a single rule — ORO.GEN.200.',
+   tags:['ORO.GEN.200','ORO.GEN.200A'],
+   s:[
+    {h:'Safety management system',r:[
+      {id:'ORO.GEN.200',title:'Management system (SMS)',note:'This single rule contains the entire SMS obligation: safety policy, safety risk management (SRM), safety assurance including compliance monitoring and internal audit, safety promotion and fatigue management. It is the regulatory cornerstone of the operator\'s framework.'},
+      {id:'ORO.GEN.200A',title:'Information security management system (ISMS)',note:'New in Rev. 24. Must be established alongside or integrated with the SMS. Covers all IT systems that could affect safety-critical functions — EFBs, OCC systems, avionics data links and crew devices.',isNew:true},
+      {id:'ORO.GEN.155',title:'Immediate reaction to a safety problem',note:'If the NAA identifies an immediate safety risk and requires immediate action, the operator must comply instantly — without waiting for the formal findings process. Safety must have a procedure for receiving and acting on urgent NAA notifications.'},
+      {id:'ORO.GEN.160',title:'Occurrence reporting',note:'Mandatory occurrences under EU Reg. 376/2014 must be reported to the NAA within 72 hours of becoming aware. Safety owns the classification process, the reporting culture and the follow-up investigation.'},
+      {id:'ORO.GEN.150',title:'Findings — responding to NAA audit findings',note:'Safety / compliance monitoring owns the corrective action tracking register. Level 1 findings require immediate response; Level 2 within 90 days. Repeated failure to close findings can result in AOC suspension.'},
+    ]},
+    {h:'Monitoring & records',r:[
+      {id:'ORO.GEN.130',title:'Changes — safety assessment of proposed changes',note:'Compliance monitoring must assess whether proposed operational or organisational changes require NAA notification or approval before implementation. This is a commonly overlooked obligation.'},
+      {id:'ORO.GEN.220',title:'Record-keeping — organisational',note:'Safety must maintain records of all safety-related activities: risk assessments, safety investigations, audit reports, corrective actions and safety promotion activities.'},
+      {id:'ORO.MLR.115',title:'Record-keeping — operational documents',note:'Defines retention periods for training records, FTL data, journey logs and occurrence reports. Safety typically owns the organisational retention schedule.'},
+      {id:'ORO.AOC.130',title:'Flight data monitoring (FDM)',note:'Mandatory for CAT operators with aeroplanes over 27,000 kg MCTOM. FDM data must be used proactively for safety risk management. Rev. 24 updated AMC increases specificity on event thresholds and analysis expectations. Safety owns the FDM programme; OCC uses the outputs.'},
+    ]},
+  ]},
+
+  {id:'camo',icon:'🔧',c:'#8a68d4',cbg:'rgba(138,104,212,0.10)',cbd:'rgba(138,104,212,0.30)',label:'CAMO',
+   shortdesc:'Airworthiness, MEL, mass & balance, tech log, ARC',
+   desc:'Plans and manages all maintenance, monitors airworthiness directives, manages the MEL and issues the Airworthiness Review Certificate. Primary regulation is Reg. 1321/2014; listed below are the Air OPS interface rules where the CAMO has direct obligations.',
+   tags:['1321/2014','Part-CAMO','Part-M'],
+   s:[
+    {h:'Air OPS interface — airworthiness',r:[
+      {id:'CAT.GEN.MPA.125',title:'Airworthiness of aircraft',note:'The operator via CAMO must ensure a valid Certificate of Airworthiness, current ARC and signed Certificate of Release to Service before every CAT flight. The commander verifies pre-flight; CAMO is accountable for the documentation being current.'},
+      {id:'CAT.GEN.MPA.130',title:'Aircraft documents — tech log and maintenance release',note:'The tech log, CRS, ARC and Certificate of Registration must be on board and up to date. CAMO is responsible for issuing and managing these documents.'},
+      {id:'ORO.MLR.105',title:'Minimum Equipment List (MEL)',note:'CAMO manages the MEL approval process with the NAA. All open MEL items must be tracked in the tech log with their rectification intervals. CAMO determines when a deferral period has expired.'},
+      {id:'CAT.IDE.A.100',title:'Equipment and instruments — applicability',note:'CAMO ensures all required equipment under CAT.IDE is installed, serviceable and meets applicable standards. Unserviceable required equipment must be captured in the MEL or CDL.'},
+      {id:'CAT.IDE.A.105',title:'Minimum equipment list — additional requirements',note:'Operators must establish and maintain an approved MEL derived from the MMEL. CAMO manages the approval process and ensures the MEL reflects the current aircraft configuration at all times.'},
+      {id:'CAT.POL.MAB.100',title:'Mass and balance — general',note:'CAMO owns the basic mass and CG data for each registered aircraft. This data is the foundation of every load sheet produced by Load Control. Any modification affecting basic mass requires CAMO to update the records.'},
+      {id:'ORO.AOC.140',title:'Facility requirements — AOC specific',note:'CAMO must maintain suitable maintenance facilities or have approved contracted arrangements. These are reviewed at every NAA audit as an AOC condition.'},
+    ]},
+  ]},
+
+  {id:'maint',icon:'🔩',c:'#e05555',cbg:'rgba(224,85,85,0.12)',cbd:'rgba(224,85,85,0.35)',label:'Maintenance (Part-145)',
+   shortdesc:'CRS, defect rectification, MEL compliance, documentation',
+   desc:'Performs all line and base maintenance and issues the Certificate of Release to Service. Primary regulation is Reg. 1321/2014 (Part-145, Part-66). Listed below are the Air OPS rules where maintenance has a direct interface obligation.',
+   tags:['1321/2014','Part-145','Part-66'],
+   s:[
+    {h:'Air OPS interface',r:[
+      {id:'CAT.GEN.MPA.125',title:'Airworthiness — valid CRS required before dispatch',note:'Maintenance issues the CRS after each maintenance task. Without a valid CRS the aircraft cannot be released for a CAT flight. This is the fundamental interface between Part-145 and Air OPS.'},
+      {id:'CAT.GEN.MPA.130',title:'Documents — tech log and maintenance release',note:'The tech log must be on board and current. Line maintenance completes the maintenance release section and records any open defects before returning the aircraft to the operator.'},
+      {id:'ORO.MLR.105',title:'MEL — defect rectification within intervals',note:'Maintenance must rectify deferred MEL items within their rectification intervals. CAMO manages MEL approval and tracks open items; maintenance performs the physical rectification.'},
+      {id:'CAT.IDE.A.100',title:'Equipment serviceability — required instruments',note:'Required instruments and equipment must be serviceable before departure. Maintenance performs serviceability verification as part of the pre-departure CRS process.'},
+    ]},
+  ]},
+
+  {id:'ato',icon:'🎓',c:'#d47a3a',cbg:'rgba(212,122,58,0.10)',cbd:'rgba(212,122,58,0.30)',label:'Training (ATO / Crew Training)',
+   shortdesc:'Type ratings, recurrent checks, CRM, EBT, cabin crew attestation',
+   desc:'Delivers type ratings, recurrent training, CRM and operator conversion under Reg. 1178/2011 Part-ORA. Listed below are the Air OPS training requirements that the operator\'s training organisation is the vehicle for.',
+   tags:['1178/2011','Part-ORA','Part-FCL'],
+   s:[
+    {h:'Flight crew training — all operators',r:[
+      {id:'ORO.FC.115',title:'CRM training',note:'All flight crew must receive initial CRM training before operating as crew and recurrent CRM at least every 3 years. Must cover TEM, decision-making, communication and incapacitation procedures.'},
+      {id:'ORO.FC.120',title:'Operator conversion training',note:'Required before flying with a new operator or after a break in service. Covers company procedures, route environments and aircraft type if changing type. Training syllabus must be in OM-D.'},
+      {id:'ORO.FC.125',title:'Differences, familiarisation and equipment training',note:'Required when operating variants of an aircraft type with different systems, avionics or procedures. The OM must define which differences trigger training and what that training consists of.'},
+      {id:'ORO.FC.130',title:'Recurrent training and checking',note:'Periodic recurrent training to maintain currency on type, procedures and emergency drills. Minimum frequency and content are defined in OM-D. Training must be completed before the expiry date.'},
+      {id:'ORO.FC.135',title:'Pilot qualification to operate in either seat',note:'A co-pilot may only act as PIC if qualified in command on type and current in the left seat. The OM must define currency requirements and the process for regaining currency after a break.'},
+      {id:'ORO.FC.140',title:'Operation on more than one type or variant',note:'Strictly controlled — pilots operating two types require specific NAA approval. Training and checking requirements must be met for each type independently.'},
+      {id:'ORO.FC.145',title:'Provision of training, checking and assessment',note:'Training records must be maintained and available for NAA inspection. Instructors and examiners must hold current TRI/TRE or equivalent qualifications.'},
+      {id:'ORO.FC.146',title:'Personnel providing training — competency requirements',note:'Defines qualification standards for TRIs, TREs, SFIs and SFEs. Their qualifications must be current and documented in the operator\'s training records.'},
+    ]},
+    {h:'Flight crew training — CAT specific',r:[
+      {id:'ORO.FC.205',title:'Command course — CAT',note:'Mandatory before a co-pilot is designated as commander on type in CAT. Includes line training under supervision, simulator exercises assessing command skills and a final route check.'},
+      {id:'ORO.FC.215',title:'Initial operator CRM training — CAT',note:'First CRM training with a new CAT operator must include company-specific elements: the operator\'s SMS, occurrence reporting process, fatigue culture and company values.'},
+      {id:'ORO.FC.220',title:'Operator conversion training and checking — CAT',note:'Full conversion programme including ground school, simulator sessions, line training and a base check or line check. The complete syllabus must be in OM-D.'},
+      {id:'ORO.FC.230',title:'Recurrent training and checking — CAT',note:'Annual OPC (Operator Proficiency Check) and LPC (Licence Proficiency Check), plus recurrent emergency procedure training. The OPC and LPC are the core recurring check events.'},
+      {id:'ORO.FC.231',title:'Evidence-based training (EBT)',note:'Optional competency-based alternative to prescriptive recurrent training. Uses FDM data and behavioural assessment to target training at identified operational risks. Requires NAA approval and an advanced FDM programme.'},
+    ]},
+  ]},
+
+  {id:'cabin',icon:'🧑‍✈️',c:'#8a68d4',cbg:'rgba(138,104,212,0.10)',cbd:'rgba(138,104,212,0.30)',label:'Cabin Crew',
+   shortdesc:'Attestation, minimum numbers, SEP, type training, FTL',
+   desc:'Cabin crew composition, attestations, training and type-specific requirements apply wherever passengers are carried commercially. The cabin crew attestation is issued by the operator — it is not a NAA-issued licence.',
+   tags:['ORO.CC','CAT.GEN'],
+   s:[
+    {h:'Cabin crew subpart (ORO.CC)',r:[
+      {id:'ORO.CC.100',title:'Number and composition of cabin crew',note:'Minimum one cabin crew member per 50 passenger seats, and at least one per floor-level emergency exit. OCC must verify minimum cabin crew are on board before departure. Operating below minimum requires specific conditions.'},
+      {id:'ORO.CC.115',title:'Cabin crew attestation',note:'Each cabin crew member must hold a valid operator-issued attestation. The attestation confirms completed initial training, type-specific training and current SEP. The operator — not the NAA — issues and manages attestations.'},
+      {id:'ORO.CC.120',title:'Initial safety training',note:'Before operating, cabin crew must complete initial safety training covering emergency procedures, fire-fighting, first aid, survival and security awareness. Minimum content is defined in the AMC.'},
+      {id:'ORO.CC.125',title:'Aircraft type specific and operator conversion training',note:'Required for each aircraft type operated. Covers door operation, emergency exits, evacuation procedures, ditching and safety equipment locations. A full-motion simulator exercise may be required for large aircraft.'},
+      {id:'ORO.CC.130',title:'Differences training',note:'Required when operating a variant with different emergency equipment, different door operation or different cabin configuration. Less extensive than full type training but must be documented.'},
+      {id:'ORO.CC.200',title:'Composition of cabin crew — CAT',note:'CAT-specific provisions supplementing ORO.CC.100. Defines minimum crew for specific routes and the conditions under which the operator may operate below minimum in an emergency.'},
+      {id:'ORO.CC.205',title:'Designation of senior cabin crew member',note:'The SCCM is the cabin-to-flight deck interface. The operator must designate a SCCM for every flight with more than one cabin crew member and define selection criteria in the OM.'},
+      {id:'ORO.CC.215',title:'Training programmes and documentation',note:'The OM-D must contain the full training syllabus for cabin crew. Individual training records must be retained for at least 3 years after the crew member leaves the operator.'},
+      {id:'ORO.CC.250',title:'Operation on more than one type or variant',note:'Cabin crew may operate on maximum three aircraft types. Operating two or more types requires a cross-crew qualification assessment and specific NAA approval for each combination.'},
+    ]},
+    {h:'Related requirements',r:[
+      {id:'CAT.GEN.MPA.115',title:'Personnel other than cabin crew in the cabin',note:'Supernumeraries — company staff, trainees, positioning crew — in the passenger compartment must be briefed on safety procedures by cabin crew before departure. The OM must define the procedure and limitations.'},
+      {id:'ORO.FTL.100',title:'FTL applicability — includes cabin crew',note:'The FTL subpart applies equally to cabin crew in CAT operations. Cabin crew FDPs, minimum rest requirements and standby rules are the same as for flight crew unless a separate approved scheme is in place.'},
+    ]},
+  ]},
+
+  {id:'ground',icon:'📦',c:'#3ab87a',cbg:'rgba(58,184,122,0.10)',cbd:'rgba(58,184,122,0.30)',label:'Ground Ops / Load Control',
+   shortdesc:'Mass & balance, de-icing, refuelling, dangerous goods, turnaround',
+   desc:'Mass & balance, cargo acceptance, dangerous goods, de-icing coordination and turnaround management. ORO.GEN.315 (new in Rev. 24) dedicates a specific rule to ground handling procedures for the first time.',
+   tags:['CAT.OP','CAT.POL','ORO.GEN'],
+   s:[
+    {h:'Ground operations',r:[
+      {id:'ORO.GEN.110',title:'Operator responsibilities — ground procedures',note:'Paragraph (e) requires the operator to establish procedures for ground operations in the absence of flight crew, including supervision of fuelling, loading and de-icing. Ground Ops owns these procedures in OM-A.'},
+      {id:'ORO.GEN.315',title:'Operational procedures for ground handling',note:'New in Rev. 24. Dedicated ground handling rule requiring the operator to establish, implement and maintain procedures for all ground handling activities — whether performed in-house or contracted to a third-party handler.',isNew:true},
+      {id:'CAT.OP.MPA.205',title:'Refuelling / defuelling with passengers on board',note:'Strictly controlled: cabin doors must be armed, ground power preferred over APU, no smoking, safety briefing to passengers. Ground Ops must have a written procedure in the OM with specific crew assignments.'},
+      {id:'CAT.OP.MPA.210',title:'Ground de-icing / anti-icing of aeroplanes',note:'Operator must have a de-icing programme in the OM covering fluid types, holdover times, contamination check procedures and the two-person check before take-off. Ground Ops coordinates with the de-icing provider.'},
+    ]},
+    {h:'Mass & balance',r:[
+      {id:'CAT.POL.MAB.100',title:'Mass and balance — general',note:'Every CAT flight requires a valid load sheet signed by an authorised person before departure. The load sheet must confirm the CG is within approved limits for all phases of flight. Load Control owns this document — it is the most safety-critical piece of paperwork at departure.'},
+    ]},
+    {h:'Dangerous goods',r:[
+      {id:'CAT.GEN.MPA.135',title:'Dangerous goods — transport by air',note:'ICAO TIs and IATA DGR are the operational standards. Ground Ops / Cargo accepts DG shipments, verifies packing and labelling against the DGR, and generates the NOTOC. Cargo acceptance is the critical safety gate.'},
+      {id:'CAT.GEN.MPA.130',title:'Documents — DG declaration and NOTOC on board',note:'The Notification to Captain (NOTOC) must be on board before departure for every flight carrying DG. Ground Ops generates the NOTOC and hands it to the commander as part of the departure documentation package.'},
+    ]},
+    {h:'Pre-flight and fuel',r:[
+      {id:'CAT.OP.MPA.125',title:'Pre-flight checks — aircraft readiness',note:'Ground Ops supports the pre-flight process by ensuring the aircraft has been cleaned, catered, fuelled and loaded before crew arrival. Any discrepancies must be communicated to the crew immediately.'},
+      {id:'CAT.OP.MPA.130',title:'Fuel — pre-flight planning',note:'The fuel uplift quantity is determined by the OFP. Ground Ops / fuelling supervisor verifies the correct quantity is uplifted, records it on the fuelling receipt and confirms to OCC.'},
+    ]},
+  ]},
+
+  {id:'security',icon:'🔒',c:'#4a9fd4',cbg:'rgba(74,159,212,0.12)',cbd:'rgba(74,159,212,0.35)',label:'Security',
+   shortdesc:'Flight deck security, crew training, Reg. 300/2008 interface',
+   desc:'The primary security framework is EC Reg. 300/2008, enforced nationally. Air OPS contributes flight deck security and crew security training requirements. The Security Manager bridges both regulatory frameworks.',
+   tags:['ORO.SEC','Reg.300/2008'],
+   s:[
+    {h:'Air OPS security rules',r:[
+      {id:'ORO.SEC.100',title:'Flight crew compartment security',note:'The flight deck door must be locked from pushback until after landing. OM must define the controlled access procedure, including monitoring of the door area from both pilot stations and a mandatory two-person rule whenever a pilot leaves the flight deck.'},
+      {id:'ORO.GEN.110',title:'Operator responsibilities — security training',note:'Paragraph (a) requires the operator to establish a security training programme for all crew members. Must cover recognition of threats, suspicious behaviour, hijack procedures and unruly passenger management. Training records must be kept.'},
+    ]},
+    {h:'Note — primary security framework',r:[
+      {id:'CAT.GEN.MPA.100',title:'Note: main security obligations are in EC Reg. 300/2008',note:'Reg. 300/2008 and its implementing acts form the main aviation security framework, enforced nationally (NCTV in the Netherlands, not ILT). The operator\'s National Civil Aviation Security Programme (NCASP) is the primary reference for day-to-day security obligations such as access control, screening and security threat response.'},
+    ]},
+  ]},
+
+  {id:'it',icon:'💻',c:'#2ab8c8',cbg:'rgba(42,184,200,0.10)',cbd:'rgba(42,184,200,0.30)',label:'IT / Information Security',
+   shortdesc:'ISMS, ORO.GEN.200A, EFBs, OCC systems, cyber incident reporting',
+   desc:'ORO.GEN.200A (ISMS) was introduced in Revision 24 in response to the NIS2 Directive and growing cyber threats. This covers OCC systems, EFBs, avionics data links and crew devices — a new regulatory frontier for most operators.',
+   tags:['ORO.GEN.200A','NIS2'],
+   s:[
+    {h:'Information security management',r:[
+      {id:'ORO.GEN.200A',title:'Information security management system (ISMS)',note:'New in Rev. 24. Operators must establish an ISMS proportionate to the risk to aviation safety. Must cover identification of information security risks, implementation of controls, monitoring and incident response. Scope includes all IT systems that could affect safety-critical functions.',isNew:true},
+      {id:'ORO.GEN.200',title:'SMS — ISMS integration',note:'The ISMS must be integrated with or implemented alongside the SMS under ORO.GEN.200. In practice this means Safety and IT must share a common risk register for cyber risks with aviation safety implications.'},
+      {id:'ORO.GEN.130',title:'Changes — IT system changes affecting safety',note:'Material changes to IT systems affecting safety-critical functions (flight planning, OCC tools, EFB applications, maintenance systems) must be assessed under the change management process and may require NAA notification before implementation.'},
+      {id:'ORO.GEN.160',title:'Occurrence reporting — cyber incidents',note:'Cyber incidents that affect or could affect aviation safety must be reported as mandatory occurrences under EU Reg. 376/2014. IT must have a procedure for determining which incidents cross the aviation safety threshold.'},
+    ]},
+    {h:'EFB and data system requirements',r:[
+      {id:'CAT.IDE.A.145',title:'Electronic flight bag (EFB)',note:'EFBs used instead of paper charts require an EFB programme in the OM covering hardware specifications, software change management, data integrity checks and crew training. IT manages the EFB platform; Flight Ops owns the operational programme.'},
+      {id:'CAT.IDE.A.160',title:'Cockpit voice recorder (CVR) — data protection',note:'CVR data is legally sensitive and access is strictly controlled. The operator must have a data protection policy for CVR recordings. IT is responsible for physical storage, access controls and ensuring recordings are not inadvertently overwritten.'},
+      {id:'CAT.IDE.A.185',title:'Flight data recorder (FDR) — data management',note:'FDR data used in the FDM programme must be handled under a non-punitive policy with controlled access. IT manages the extraction system, data storage and access controls for the FDM database.'},
+    ]},
+  ]},
+
+  {id:'hr',icon:'🧑‍💼',c:'#c8a84b',cbg:'rgba(200,168,75,0.12)',cbd:'rgba(200,168,75,0.28)',label:'HR / Personnel',
+   shortdesc:'Staffing, training records, FTL rostering, nominated persons',
+   desc:'No single rule governs HR directly, but staffing levels, training records and fatigue rostering all carry specific regulatory obligations. HR is the enabling function behind multiple compliance requirements.',
+   tags:['ORO.GEN','ORO.FTL'],
+   s:[
+    {h:'Personnel & staffing',r:[
+      {id:'ORO.GEN.210',title:'Personnel requirements',note:'Adequate numbers of qualified staff at all times is a core AOC condition. HR must ensure establishment levels allow for absences, training commitments and operational peaks without breaching compliance.'},
+      {id:'ORO.AOC.135',title:'Nominated persons — qualifications and NAA approval',note:'HR manages the recruitment and appointment process for all NPs. Each appointment requires a formal submission to the NAA and cannot take effect until NAA acceptance is confirmed. HR tracks NP approval status.'},
+      {id:'ORO.GEN.200',title:'Management system — human factors and resources',note:'Paragraph (a)(4) requires adequate resources including personnel and financing. HR must ensure the organisation can demonstrate to the NAA that it is adequately staffed at all times, not just during audits.'},
+    ]},
+    {h:'Training records',r:[
+      {id:'ORO.MLR.115',title:'Record-keeping — training and operational records',note:'Training records for all flight crew, cabin crew and ground staff must be retained for defined periods (minimum 3 years for operational, 5 years for training-related). HR manages the records retention system and must be able to produce records for NAA inspection.'},
+      {id:'ORO.FC.145',title:'Training, checking and assessment records',note:'Individual training records must show currency of type rating, recurrent checks, CRM, DG and SEP training. HR is responsible for flagging upcoming expiries before they lapse — an expired qualification means a crew member cannot legally operate.'},
+      {id:'ORO.CC.215',title:'Cabin crew training programmes and documentation',note:'Cabin crew training records including attestation, type training and recurrent SEP must be retained and available for NAA inspection at any time. HR maintains these alongside the cabin crew training team.'},
+    ]},
+    {h:'Fatigue & rostering',r:[
+      {id:'ORO.FTL.105',title:'Operator responsibilities — FTL rostering',note:'HR rostering teams must ensure all published rosters comply with FTL limits before they are issued. Post-duty actual FDP data must be monitored. FTL records must be retained for 15 months.'},
+      {id:'ORO.FTL.110',title:'Flight crew responsibilities — fatigue reporting',note:'HR must ensure a non-punitive fatigue reporting culture exists. Crew who report themselves unfit to fly must not face disciplinary action — this is an OM requirement and a condition of regulatory compliance.'},
+      {id:'ORO.FTL.115',title:'Fatigue management training',note:'HR is responsible for ensuring all rostering staff, OCC schedulers and crew controllers receive fatigue management training before performing scheduling duties. Training records must be maintained.'},
+      {id:'ORO.FTL.230',title:'Scheduling policy — OM requirement',note:'The OM must contain a scheduling policy covering how rosters are published, minimum notice periods, how split duties are managed and how crew can request changes on fatigue grounds without penalty.'},
+    ]},
+  ]},
+];
+
+// ── THEME ─────────────────────────────────────
+function toggleTheme(){
+  var l=document.documentElement.getAttribute('data-theme')==='light';
+  document.documentElement.setAttribute('data-theme',l?'':'light');
+  var b=document.getElementById('themeBtn');if(b){b.textContent=l?'☀ Light':'🌙 Dark';b.setAttribute('aria-label',l?'Switch to dark theme':'Switch to light theme');}
+  localStorage.setItem('airopsref-theme',l?'':'light');
+}
+(function(){
+  var t=localStorage.getItem('airopsref-theme');
+  if(t==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('themeBtn').textContent='🌙 Dark';}
+})();
+
+// ── STATE ─────────────────────────────────────
+var cur=null, searchQ='';
+
+function hl(text,q){
+  if(!q) return text;
+  var re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return text.replace(re,'<mark>$1</mark>');
+}
+
+// ── SIDEBAR ──────────────────────────────────
+function renderSidebar(){
+  var list=document.getElementById('deptList');
+  list.innerHTML='';
+  var q=searchQ.toLowerCase();
+  D.forEach(function(d){
+    var count=d.s.reduce(function(n,s){return n+s.r.length;},0);
+    if(q){
+      var has=d.s.some(function(s){return s.r.some(function(r){
+        return (r.id+' '+r.title+' '+(r.note||'')).toLowerCase().indexOf(q)!==-1;
+      });});
+      if(!has) return;
+    }
+    var btn=document.createElement('button');
+    btn.className='dept-btn'+(cur===d.id?' active':'');
+    btn.innerHTML='<div class="dept-icon" style="background:'+d.cbg+';border:1px solid '+d.cbd+'">'+d.icon+'</div><div style="min-width:0"><span class="dept-name">'+d.label+'</span><span class="dept-count">'+count+' rules</span></div>';
+    btn.onclick=function(){cur=d.id;renderSidebar();renderMain(d);};
+    list.appendChild(btn);
+  });
+}
+
+// ── OVERVIEW ─────────────────────────────────
+function renderOverview(){
+  var panel=document.getElementById('mainPanel');
+  panel.innerHTML='<div style="margin-bottom:24px"><div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px">Department IR Navigator</div><h1 style="font-family:\'Space Grotesk\',sans-serif;font-size:24px;font-weight:700;color:var(--h-title);margin-bottom:8px">Find rules by department</h1><p style="font-size:13px;color:var(--muted);font-weight:300;max-width:600px;line-height:1.7">Every EASA Air OPS implementing rule organised by the department responsible — not by regulatory structure. Select a department or click a card below. Search to find a specific rule across all departments.</p></div><div class="overview-grid" id="overviewGrid"></div>';
+  var grid=document.getElementById('overviewGrid');
+  D.forEach(function(d){
+    var count=d.s.reduce(function(n,s){return n+s.r.length;},0);
+    var card=document.createElement('div');
+    card.className='overview-card';
+    card.style.borderLeft='3px solid '+d.c;
+    card.innerHTML='<div class="oc-icon">'+d.icon+'</div><div class="oc-name">'+d.label+'</div><div class="oc-desc">'+d.shortdesc+'</div><div class="oc-count">'+count+' rules</div>';
+    card.onclick=function(){cur=d.id;renderSidebar();renderMain(d);};
+    grid.appendChild(card);
+  });
+}
+
+// ── DEPT CONTENT ─────────────────────────────
+function renderMain(d){
+  var q=searchQ.toLowerCase();
+  var total=d.s.reduce(function(n,s){return n+s.r.length;},0);
+  var newBadge='<span class="rule-new">Rev.24</span>';
+  var h='<div class="dept-header"><h2>'+d.icon+' '+d.label+'</h2>';
+  h+='<div class="dept-desc">'+d.desc+'</div>';
+  h+='<div class="dept-tags">';
+  d.tags.forEach(function(t){h+='<span class="dept-tag" style="background:'+d.cbg+';border:1px solid '+d.cbd+';color:'+d.c+'">'+t+'</span>';});
+  h+='<span class="dept-tag" style="background:var(--bg3);border:1px solid var(--border2);color:var(--muted)">'+total+' rules</span>';
+  h+='</div></div>';
+  if(q) h+='<div class="search-info">Showing results for "<strong style="color:var(--text)">'+q+'</strong>"</div>';
+  d.s.forEach(function(sec){
+    var secR=sec.r.filter(function(r){
+      if(!q) return true;
+      return (r.id+' '+r.title+' '+(r.note||'')).toLowerCase().indexOf(q)!==-1;
+    });
+    if(q&&secR.length===0) return;
+    h+='<div class="sec-label">'+sec.h+'</div><div class="rules-wrap"><table class="rules">';
+    secR.forEach(function(r){
+      h+='<tr><td class="rule-id-cell"><a href="'+earlink(r.id)+'" target="_blank" rel="noopener">'+hl(r.id,q)+'<span style="font-size:9px;opacity:.35"> ↗</span></a>'+(r.isNew?newBadge:'')+'</td>';
+      h+='<td><div class="rt">'+hl(r.title,q)+'</div>'+(r.note?'<div class="rn">'+hl(r.note,q)+'</div>':'')+'</td></tr>';
+    });
+    h+='</table></div>';
+  });
+  document.getElementById('mainPanel').innerHTML=h;
+}
+
+// ── SEARCH ───────────────────────────────────
+var st;
+document.getElementById('navSearch').addEventListener('input',function(){
+  clearTimeout(st);
+  var v=this.value.trim();
+  st=setTimeout(function(){
+    searchQ=v;
+    if(v){
+      var first=D.find(function(d){return d.s.some(function(s){return s.r.some(function(r){return (r.id+' '+r.title+' '+(r.note||'')).toLowerCase().indexOf(v.toLowerCase())!==-1;});});});
+      if(first){cur=first.id;renderSidebar();renderMain(first);}
+      else{renderSidebar();document.getElementById('mainPanel').innerHTML='<div style="padding:40px;text-align:center;color:var(--dim);font-size:13px">No results for "'+v+'"</div>';}
+    }else{cur=null;renderSidebar();renderOverview();}
+  },200);
+});
+document.getElementById('navSearch').addEventListener('keydown',function(e){
+  if(e.key==='Escape'){this.value='';searchQ='';cur=null;renderSidebar();renderOverview();}
+});
+
+renderSidebar();
+renderOverview();
+</script>
+<a href="assistant.html" style="position:fixed;bottom:24px;right:24px;z-index:200;display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--pers);border-radius:24px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 4px 20px rgba(138,104,212,0.4);transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(138,104,212,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(138,104,212,0.4)'"><span style="font-size:14px">✦</span> Ask the AI assistant</a>
+<div style="margin-top:24px;padding:14px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm)">
+  <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Related tools</div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap"><a href="framework.html" style="font-size:12px;color:var(--ops);text-decoration:none;font-weight:500;padding:4px 0" onmouseover="this.style.color='var(--gold-l)'" onmouseout="this.style.color='var(--ops)'">Regulatory Framework →</a><a href="definitions.html" style="font-size:12px;color:var(--ops);text-decoration:none;font-weight:500;padding:4px 0" onmouseover="this.style.color='var(--gold-l)'" onmouseout="this.style.color='var(--ops)'">Definitions →</a><a href="icao-mapping.html" style="font-size:12px;color:var(--ops);text-decoration:none;font-weight:500;padding:4px 0" onmouseover="this.style.color='var(--gold-l)'" onmouseout="this.style.color='var(--ops)'">ICAO ↔ EASA Mapping →</a></div>
+</div>
+
+<div style="margin-top:32px;padding:12px 18px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold-bd);border-radius:var(--r-sm);font-size:11.5px;color:var(--dim);line-height:1.7">
+<strong style="color:var(--muted)">Disclaimer:</strong> This tool is an educational reference only. Always verify against the official EASA Easy Access Rules and applicable national regulations before making compliance decisions. Regulations change — check the publication date and consult your competent authority for authoritative guidance.
+</div>
+
+</body>
+</html>
