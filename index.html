@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>opsmap.eu — EASA Air Operations Reference</title>
+<meta name="description" content="Free interactive reference to the EASA Air Operations regulatory framework. Covering Reg. 965/2012, all Parts, NPAs and the rulemaking pipeline. For EU aviation professionals.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c1520; --bg2:#111e30; --bg3:#162540;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --gold:#c8a84b; --gold-l:#e4c96a;
+  --gold-bg:rgba(200,168,75,0.12); --gold-bd:rgba(200,168,75,0.28);
+  --text:#dde3ef; --muted:#7a8aaa; --dim:#3d4d68;
+  --h-title:#ffffff;
+  --ops:#3a8fd4; --ops-bg:rgba(58,143,212,0.10); --ops-bd:rgba(58,143,212,0.30);
+  --pers:#8a68d4; --pers-bg:rgba(138,104,212,0.10); --pers-bd:rgba(138,104,212,0.30);
+  --airw:#3ab87a; --airw-bg:rgba(58,184,122,0.10); --airw-bd:rgba(58,184,122,0.30);
+  --ir:#e05555; --ir-bg:rgba(224,85,85,0.12); --ir-bd:rgba(224,85,85,0.35);
+  --r:10px;
+}
+[data-theme="light"]{
+  --bg:#f0f3f8; --bg2:#ffffff; --bg3:#e6eaf3;
+  --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.14);
+  --text:#1a2440; --muted:#4a5878; --dim:#8a9ab8;
+  --h-title:#0c1520;
+  --gold:#9a7418; --gold-l:#7a5c10;
+  --gold-bg:rgba(154,116,24,0.09); --gold-bd:rgba(154,116,24,0.22);
+  --ops:#1660a8; --ops-bg:rgba(22,96,168,0.08); --ops-bd:rgba(22,96,168,0.22);
+  --pers:#5c38a8; --pers-bg:rgba(92,56,168,0.08); --pers-bd:rgba(92,56,168,0.22);
+  --airw:#1a7a42; --airw-bg:rgba(26,122,66,0.08); --airw-bd:rgba(26,122,66,0.22);
+  --ir:#c02828; --ir-bg:rgba(192,40,40,0.08); --ir-bd:rgba(192,40,40,0.25);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* ── GRID BG ─────────────────────────────────── */
+.grid-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(200,168,75,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,168,75,0.035) 1px,transparent 1px);
+  background-size:48px 48px;
+  animation:gridMove 25s linear infinite;
+}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:48px 48px}}
+[data-theme="light"] .grid-bg{
+  background-image:
+    linear-gradient(rgba(154,116,24,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(154,116,24,0.05) 1px,transparent 1px);
+}
+
+/* ── NAV ─────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px;
+  background:rgba(12,21,32,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+[data-theme="light"] nav{background:rgba(240,243,248,0.88)}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;
+  color:var(--h-title);letter-spacing:-.01em;
+}
+.nav-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 10px rgba(200,168,75,0.7);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{
+  padding:5px 12px;border-radius:20px;
+  font-size:12px;font-weight:500;color:var(--muted);
+  transition:all .15s;
+}
+.nav-link:hover{color:var(--text);background:var(--bg3)}
+.nav-cta{
+  padding:6px 16px;border-radius:20px;
+  background:var(--gold-bg);border:1px solid var(--gold-bd);
+  font-size:12px;font-weight:600;color:var(--gold-l);
+  transition:opacity .15s;
+}
+.nav-cta:hover{opacity:.8}
+.theme-btn{
+  padding:5px 12px;border-radius:20px;border:1px solid var(--border2);
+  background:none;color:var(--muted);font-family:inherit;font-size:12px;
+  cursor:pointer;transition:all .15s;
+}
+.theme-btn:hover{border-color:var(--gold-bd);color:var(--gold-l)}
+
+/* ── HERO ────────────────────────────────────── */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 16px;border-radius:20px;
+  background:var(--gold-bg);border:1px solid var(--gold-bd);
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold-l);margin-bottom:28px;
+  animation:fadeUp .6s ease both;
+}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(36px,7vw,80px);
+  font-weight:800;color:var(--h-title);
+  line-height:1.0;letter-spacing:-.03em;padding-bottom:8px;
+  margin-bottom:24px;
+  animation:fadeUp .6s .1s ease both;
+}
+.hero h1 em{color:var(--gold);font-style:normal;display:block}
+.hero p{
+  font-size:16px;font-weight:300;color:var(--muted);
+  max-width:520px;line-height:1.75;margin-bottom:40px;
+  animation:fadeUp .6s .2s ease both;
+}
+.hero-actions{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-bottom:64px;
+  animation:fadeUp .6s .3s ease both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 28px;border-radius:30px;
+  background:var(--gold);color:#0c1520;
+  font-family:inherit;font-size:14px;font-weight:700;
+  transition:all .2s;
+  box-shadow:0 4px 20px rgba(200,168,75,0.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,168,75,0.4)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;border-radius:30px;
+  border:1px solid var(--border2);
+  font-family:inherit;font-size:14px;font-weight:500;color:var(--muted);
+  transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--gold-bd);color:var(--gold-l)}
+
+/* Scroll indicator */
+.scroll-hint{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;
+  animation:fadeUp .6s .5s ease both;
+}
+.scroll-arrow{
+  width:20px;height:20px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);
+  transform:rotate(45deg);
+  animation:bounce 1.5s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(4px)}}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── TOOLS SECTION ───────────────────────────── */
+.section{
+  position:relative;z-index:1;
+  max-width:1000px;margin:0 auto;padding:80px 24px;
+}
+.section-label{
+  font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:12px;
+}
+.section-title{
+  font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,4vw,36px);
+  font-weight:800;color:var(--h-title);line-height:1.15;margin-bottom:12px;
+}
+.section-title em{color:var(--gold);font-style:normal}
+.section-desc{
+  font-size:14px;font-weight:300;color:var(--muted);
+  max-width:520px;line-height:1.7;margin-bottom:40px;
+}
+
+/* Tool cards */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.tool-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:24px;
+  display:flex;flex-direction:column;gap:14px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  cursor:pointer;
+}
+.tool-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.3);
+}
+.tool-card.featured{
+  border-color:var(--gold-bd);
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(200,168,75,0.04) 100%);
+}
+.tool-card.featured:hover{box-shadow:0 12px 32px rgba(200,168,75,0.12)}
+.tool-icon{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.tool-tag{
+  display:inline-block;font-size:9px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 8px;border-radius:10px;
+  background:var(--gold-bg);border:1px solid var(--gold-bd);color:var(--gold-l);
+  margin-bottom:2px;align-self:flex-start;
+}
+.tool-tag.new{background:var(--airw-bg);border-color:var(--airw-bd);color:var(--airw)}
+.tool-tag.coming{background:var(--bg3);border-color:var(--border2);color:var(--dim)}
+.tool-name{
+  font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;
+  color:var(--h-title);line-height:1.2;
+}
+.tool-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6}
+.tool-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:auto;padding-top:14px;border-top:1px solid var(--border);
+}
+.tool-meta{font-size:11px;color:var(--dim)}
+.tool-arrow{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--muted);
+  transition:all .15s;
+}
+.tool-card:hover .tool-arrow{background:var(--gold-bd);color:var(--gold-l)}
+
+/* ── ABOUT STRIP ─────────────────────────────── */
+.about-strip{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:var(--bg2);
+}
+.about-inner{
+  max-width:1000px;margin:0 auto;padding:48px 24px;
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+}
+.about-text h2{
+  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;
+  color:var(--h-title);margin-bottom:10px;
+}
+.about-text p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.about-facts{display:flex;flex-direction:column;gap:10px}
+.fact{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 16px;background:var(--bg3);border-radius:8px;
+  border-left:3px solid var(--gold-bd);
+}
+.fact-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.fact-text{font-size:12px;font-weight:300;color:var(--muted);line-height:1.5}
+.fact-text strong{color:var(--text);display:block;margin-bottom:2px;font-size:13px}
+
+/* ── SUBSCRIBE SECTION ───────────────────────── */
+.subscribe-strip {
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(200,168,75,0.05) 100%);
+  border-top:1px solid var(--gold-bd);border-bottom:1px solid var(--border);
+}
+.subscribe-inner {
+  max-width:1000px;margin:0 auto;padding:56px 24px;
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+}
+.subscribe-text h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--h-title);margin-bottom:10px}
+.subscribe-text h2 em{color:var(--gold);font-style:normal}
+.subscribe-text p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:6px}
+.subscribe-text .freq{font-size:11px;color:var(--dim)}
+.subscribe-form-wrap form{display:flex;flex-direction:column;gap:8px}
+.subscribe-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:11px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+.subscribe-input:focus{border-color:var(--gold-bd);box-shadow:0 0 0 3px rgba(200,168,75,0.08)}
+.subscribe-input::placeholder{color:var(--dim)}
+.subscribe-btn{width:100%;padding:11px 20px;border-radius:8px;background:var(--gold);border:none;color:#0c1520;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .15s}
+.subscribe-btn:hover{opacity:.9;transform:translateY(-1px)}
+.subscribe-note{font-size:11px;color:var(--dim);text-align:center;margin-top:4px}
+.subscribe-success{padding:12px 16px;background:var(--airw-bg);border:1px solid var(--airw-bd);border-radius:8px;font-size:13px;color:var(--airw);font-weight:500;display:none;text-align:center}
+@media(max-width:680px){.subscribe-inner{grid-template-columns:1fr}}
+/* ── END SUBSCRIBE ────────────────────────────── */
+
+/* ── FOOTER ──────────────────────────────────── */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:32px 24px;
+  font-size:11px;color:var(--dim);
+  border-top:1px solid var(--border);
+}
+footer a{color:var(--muted);transition:color .15s}
+footer a:hover{color:var(--gold-l)}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media(max-width:680px){
+  nav{padding:12px 16px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px}
+  .hero h1{letter-spacing:-.02em}
+  .section{padding:48px 20px}
+  .about-inner{grid-template-columns:1fr}
+  .tools-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-dot"></div>
+    opsmap.eu
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="framework.html">Framework</a>
+    <a class="nav-link" href="dept-navigator.html">IR Navigator</a>
+    <a class="nav-link" href="icao-mapping.html">ICAO ↔ EASA</a>
+    <a class="nav-link" href="definitions.html">Definitions</a>
+    <a class="nav-link" href="assistant.html">✦ AI Assistant</a>
+    <a class="nav-link" href="#about">About</a>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+  </div>
+  <a class="nav-cta" href="framework.html">Open reference ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">✈ Free · No login · EU-wide</div>
+  <h1>EASA Air OPS<em>Made navigable</em></h1>
+  <p>An interactive reference to the EU aviation regulatory framework — from the Basic Regulation down to individual rule IDs, AMC, GM and your national authority. Built for aviation professionals across Europe.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="framework.html">Explore the framework →</a>
+    <a class="btn-secondary" href="dept-navigator.html">Find rules by department</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    scroll to explore
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section">
+  <div class="section-label">What's here</div>
+  <h2 class="section-title">Reference tools for <em>EU air operations</em></h2>
+  <p class="section-desc">Everything is free, requires no login, and links directly to the official EASA Easy Access Rules. Select your country and every reference to your NAA updates automatically.</p>
+
+  <div class="tools-grid">
+
+    <a href="framework.html" class="tool-card featured">
+      <div class="tool-icon" style="background:var(--gold-bg)">📐</div>
+      <div>
+        <span class="tool-tag">Core tool</span>
+        <div class="tool-name">Regulatory Framework</div>
+        <div class="tool-desc">Complete top-down reference from Basic Reg 2018/1139 through Reg. 965/2012 — all Parts (ARO, ORO, CAT, SPA), all rule IDs with direct EAR links, AMC/GM indicators and OM mapping. Includes the rulemaking pipeline and a country selector for all 30 EASA states.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">Reg. 965/2012 Rev. 24 · April 2026</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="dept-navigator.html" class="tool-card">
+      <div class="tool-icon" style="background:var(--ops-bg)">🏢</div>
+      <div>
+        <div class="tool-name">Department IR Navigator</div>
+        <div class="tool-desc">Select your department — Flight Ops, Safety, CAMO, ATO, Ground Ops, Cabin Crew, IT, HR — and see every applicable Implementing Rule with a description and direct EAR link. For NPs, compliance managers and department heads.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">11 departments · 150+ rules mapped</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="framework.html#searchBarWrap" class="tool-card" onclick="setTimeout(function(){var el=document.getElementById('ruleSearch');if(el)el.focus();},300)">
+      <div class="tool-icon" style="background:var(--pers-bg)">🔍</div>
+      <div>
+        <div class="tool-name">Rule Search</div>
+        <div class="tool-desc">Search across all rule IDs, titles and descriptions in one place. Type "fuel planning" or "ORO.FC" and find every relevant article instantly.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">Built into the framework</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="icao-mapping.html" class="tool-card">
+      <div class="tool-icon" style="background:var(--airw-bg)">🌐</div>
+      <div>
+        <div class="tool-name">ICAO ↔ EASA Mapping</div>
+        <div class="tool-desc">Map any ICAO Annex 6 Part I standard to its EASA equivalent — and vice versa. See where EASA goes beyond the ICAO baseline. Searchable, filterable, with direct EAR links on every rule.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">70+ mappings · Annex 6 Part I · Both directions</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="definitions.html" class="tool-card">
+      <div class="tool-icon" style="background:var(--gold-bg)">📖</div>
+      <div>
+        <div class="tool-name">Air OPS Definitions</div>
+        <div class="tool-desc">Every legal term defined in Annex I of Reg. 965/2012 — from ASDA to wet runway. Searchable, with practical notes on how each definition applies in operations.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">90+ definitions · Annex I · Rev. 24</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="assistant.html" class="tool-card">
+      <div class="tool-icon" style="background:var(--pers-bg)">🤖</div>
+      <div>
+        <div class="tool-name">Air OPS Assistant</div>
+        <div class="tool-desc">Ask anything about EASA Air Operations regulations. Rule interpretation, OM writing guidance, compliance questions, rulemaking pipeline — answered by an AI with full Reg. 965/2012 context.</div>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-meta">Powered by Claude · Rev. 24</span>
+        <div class="tool-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- AI STRIP -->
+<div style="position:relative;z-index:1;background:linear-gradient(135deg,#0e1a2e 0%,#1a1040 100%);border-top:1px solid rgba(138,104,212,0.2);border-bottom:1px solid rgba(138,104,212,0.2)">
+  <div style="max-width:1000px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center">
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(138,104,212,.8);margin-bottom:10px">AI-powered · Free</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.2">An AI assistant that knows<br>every EASA Air OPS rule</h2>
+      <p style="font-size:14px;font-weight:300;color:rgba(200,190,230,.7);max-width:480px;line-height:1.7;margin-bottom:0">Ask about rule interpretation, OM writing, compliance obligations, or what changes are coming. Powered by Claude with full Reg. 965/2012 Rev. 24 context — rule-by-rule.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+      <a href="assistant.html" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:28px;background:rgba(138,104,212,1);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap;transition:opacity .15s;box-shadow:0 4px 24px rgba(138,104,212,0.4)" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+        ✦ Try the assistant →
+      </a>
+      <div style="font-size:11px;color:rgba(138,104,212,.6);text-align:right">No login · No cost · Always current</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>Why this exists</h2>
+      <p>EASA's regulatory framework is thorough, well-structured and publicly available — but navigating thousands of pages of PDF and the online EAR is time-consuming. Most people working in EU aviation need to find a specific rule, understand how it fits into the bigger picture, or quickly check what's changing.</p>
+      <p>This site translates the regulatory structure into an accessible, searchable reference that links directly to the authoritative source. It's built and maintained by an aviation professional, not a publisher.</p>
+      <p style="font-size:12px;color:var(--dim);margin-top:16px">This is an educational reference tool only. Always consult the official EASA Easy Access Rules for compliance purposes. See the disclaimer on each tool page.</p>
+    </div>
+    <div class="about-facts">
+      <div class="fact">
+        <div class="fact-icon">✈</div>
+        <div class="fact-text">
+          <strong>Focus: CAT commercial air transport</strong>
+          Parts NCC, NCO and SPO are not covered. Based on Reg. 965/2012 Revision 24 (March 2026).
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🏳</div>
+        <div class="fact-text">
+          <strong>All 30 EASA states supported</strong>
+          Select your country and all references to the national authority update automatically — ILT, LBA, DGAC, AESA and all others.
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🔗</div>
+        <div class="fact-text">
+          <strong>Direct links to the Easy Access Rules</strong>
+          Every rule ID links directly to the exact article in the EASA EAR — no searching required.
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">✉</div>
+        <div class="fact-text">
+          <strong>Feedback welcome</strong>
+          Found an error or missing rule? Use the feedback form inside any tool — I read every message.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBSCRIBE -->
+<div class="subscribe-strip">
+  <div class="subscribe-inner">
+    <div class="subscribe-text">
+      <h2>Stay informed when<br><em>rules change</em></h2>
+      <p>Get a plain-language summary whenever EASA publishes a new EAR revision, a relevant NPA goes to consultation, or an Opinion is adopted. No noise — only what matters for EU air operations.</p>
+      <p class="freq">✈ 3–4 emails per year · Free · Unsubscribe anytime</p>
+    </div>
+    <div class="subscribe-form-wrap">
+      <div id="subscribeFormWrap">
+        <input type="email" id="subscribeEmail" class="subscribe-input" placeholder="your@email.com"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();submitSubscribeIndex();}">
+        <button class="subscribe-btn" onclick="submitSubscribeIndex()">Subscribe to updates →</button>
+      </div>
+      <div class="subscribe-note">Powered by Buttondown · GDPR compliant · No spam</div>
+      <div id="subscribeSuccess" style="display:none;font-size:13px;font-weight:500;margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div style="margin-bottom:10px">
+    <a href="framework.html">Regulatory Framework</a> ·
+    <a href="dept-navigator.html">IR Navigator</a> ·
+    <a href="#about">About</a>
+  </div>
+  opsmap.eu · Content based on EASA regulations in force as of April 2026 ·
+  <a href="https://www.easa.europa.eu" target="_blank" rel="noopener">easa.europa.eu</a>
+</footer>
+
+<script>
+function toggleTheme(){
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  document.getElementById('themeBtn').textContent = isLight ? '☀ Light' : '🌙 Dark';
+  localStorage.setItem('opsmap-theme', isLight ? '' : 'light');
+}
+
+async function submitSubscribeIndex() {
+  var email = document.getElementById('subscribeEmail');
+  var msg = document.getElementById('subscribeSuccess');
+  var wrap = document.getElementById('subscribeFormWrap');
+  if (!email.value || !email.value.includes('@')) {
+    email.style.borderColor = '#e05555';
+    setTimeout(function(){ email.style.borderColor = ''; }, 1500);
+    return;
+  }
+  var btn = wrap.querySelector('button');
+  btn.textContent = 'Subscribing…';
+  btn.disabled = true;
+  try {
+    var res = await fetch('https://buttondown.com/api/emails/embed-subscribe/airopsref', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'email=' + encodeURIComponent(email.value)
+    });
+    wrap.style.display = 'none';
+    if (res.ok || res.status === 200 || res.status === 201) {
+      msg.style.color = '#3ab87a';
+      msg.textContent = '✓ You\'re subscribed. Check your inbox to confirm.';
+    } else if (res.status === 400) {
+      msg.style.color = 'var(--gold-l, #e4c96a)';
+      msg.textContent = 'This email is already subscribed.';
+    } else {
+      wrap.style.display = 'block';
+      btn.textContent = 'Subscribe to updates →';
+      btn.disabled = false;
+      msg.style.color = '#e05555';
+      msg.textContent = 'Something went wrong — please try again.';
+    }
+    msg.style.display = 'block';
+  } catch(e) {
+    btn.textContent = 'Subscribe to updates →';
+    btn.disabled = false;
+    msg.style.color = '#e05555';
+    msg.textContent = 'Connection error — please try again.';
+    msg.style.display = 'block';
+  }
+}
+(function(){
+  var t = localStorage.getItem('opsmap-theme');
+  if (t === 'light') {
+    document.documentElement.setAttribute('data-theme','light');
+    document.getElementById('themeBtn').textContent = '🌙 Dark';
+  }
+})();
+</script>
+</body>
+</html>
