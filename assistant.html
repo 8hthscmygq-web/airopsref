@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="AI-powered assistant with full knowledge of EASA Air Operations regulations. Ask about rule interpretation, OM writing, compliance questions and the rulemaking pipeline.">
+<meta property="og:title" content="Air OPS AI Assistant — opsmap.eu">
+<meta property="og:description" content="AI-powered assistant with full knowledge of EASA Air Operations regulations. Ask about rule interpretation, OM writing, compliance questions and the rulemaking pipeline.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://opsmap.eu/assistant.html">
+<link rel="canonical" href="https://opsmap.eu/assistant.html">
+<script>
+(function(){var t=localStorage.getItem('opsmap-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air OPS AI Assistant — EASA Reg. 965/2012 | opsmap.eu</title>
+<meta name="description" content="AI-powered assistant for EASA Air Operations regulations. Ask anything about Reg. 965/2012, ORO, CAT, ARO, SPA, AMC/GM and Operations Manual writing.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c1520;--bg2:#111e30;--bg3:#162540;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --gold:#c8a84b;--gold-l:#e4c96a;
+  --gold-bg:rgba(200,168,75,0.12);--gold-bd:rgba(200,168,75,0.28);
+  --text:#dde3ef;--muted:#7a8aaa;--dim:#5a6d8a;
+  --h-title:#ffffff;
+  --ops:#3a8fd4;--ops-bg:rgba(58,143,212,0.10);--ops-bd:rgba(58,143,212,0.30);
+  --pers:#8a68d4;--pers-bg:rgba(138,104,212,0.10);--pers-bd:rgba(138,104,212,0.30);
+  --airw:#3ab87a;--airw-bg:rgba(58,184,122,0.10);--airw-bd:rgba(58,184,122,0.30);
+  --ir:#e05555;--ir-bg:rgba(224,85,85,0.12);--ir-bd:rgba(224,85,85,0.35);
+  --r:10px;--r-sm:6px;
+}
+[data-theme="light"]{
+  --bg:#f0f3f8;--bg2:#ffffff;--bg3:#e6eaf3;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a2440;--muted:#4a5878;--dim:#6a7a98;
+  --h-title:#0c1520;
+  --gold:#9a7418;--gold-l:#7a5c10;
+  --gold-bg:rgba(154,116,24,0.09);--gold-bd:rgba(154,116,24,0.22);
+  --ops:#1660a8;--ops-bg:rgba(22,96,168,0.08);--ops-bd:rgba(22,96,168,0.22);
+  --pers:#5c38a8;--pers-bg:rgba(92,56,168,0.08);--pers-bd:rgba(92,56,168,0.22);
+  --airw:#1a7a42;--airw-bg:rgba(26,122,66,0.08);--airw-bd:rgba(26,122,66,0.22);
+  --ir:#c02828;--ir-bg:rgba(192,40,40,0.08);--ir-bd:rgba(192,40,40,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;display:flex;flex-direction:column}
+
+/* NAV */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
+  color:var(--h-title);text-decoration:none;
+}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.6);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--bg3)}
+.theme-btn{padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:none;color:var(--muted);font-family:inherit;font-size:11px;cursor:pointer;transition:all .15s}
+.theme-btn:hover{border-color:var(--gold-bd);color:var(--gold-l)}
+
+/* LAYOUT */
+.page{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:860px;width:100%;margin:0 auto;padding:0 16px}
+
+/* HEADER STRIP */
+.assistant-header{
+  padding:20px 0 16px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.assistant-title{
+  display:flex;align-items:center;gap:10px;margin-bottom:6px;
+}
+.assistant-title h1{
+  font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--h-title);
+}
+.ai-badge{
+  padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.08em;
+  background:var(--pers-bg);border:1px solid var(--pers-bd);color:var(--pers);
+}
+.assistant-desc{font-size:12px;color:var(--muted);font-weight:300;max-width:560px}
+.context-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ctx-pill{
+  padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;
+  background:var(--gold-bg);border:1px solid var(--gold-bd);color:var(--gold-l);
+}
+
+/* CHAT AREA */
+.chat-wrap{flex:1;overflow-y:auto;padding:16px 0;display:flex;flex-direction:column;gap:14px}
+.chat-wrap::-webkit-scrollbar{width:4px}
+.chat-wrap::-webkit-scrollbar-track{background:transparent}
+.chat-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* MESSAGES */
+.msg{display:flex;gap:10px;max-width:100%;animation:msgIn .2s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.msg-avatar{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+}
+.msg.assistant .msg-avatar{background:var(--gold-bg);border:1px solid var(--gold-bd);color:var(--gold-l)}
+.msg.user .msg-avatar{background:var(--bg3);border:1px solid var(--border2);color:var(--muted)}
+.msg-bubble{
+  max-width:78%;padding:11px 15px;border-radius:12px;font-size:13.5px;line-height:1.65;
+}
+.msg.assistant .msg-bubble{
+  background:var(--bg2);border:1px solid var(--border);color:var(--text);
+  border-bottom-left-radius:3px;
+}
+.msg.user .msg-bubble{
+  background:var(--gold-bg);border:1px solid var(--gold-bd);color:var(--text);
+  border-bottom-right-radius:3px;
+}
+.msg-bubble p{margin-bottom:8px}
+.msg-bubble p:last-child{margin-bottom:0}
+.msg-bubble strong{color:var(--h-title);font-weight:600}
+.msg-bubble em{color:var(--muted)}
+.msg-bubble code{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:3px;padding:1px 5px;font-size:12px;font-family:monospace;color:var(--gold-l);
+}
+.msg-bubble ul,
+.msg-bubble ol{padding-left:18px;margin-bottom:8px}
+.msg-bubble li{margin-bottom:4px}
+
+/* TYPING INDICATOR */
+.typing-dots{display:flex;gap:4px;padding:4px 0}
+.typing-dots span{
+  width:6px;height:6px;border-radius:50%;background:var(--pers);opacity:.4;
+  animation:dot .8s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* SUGGESTIONS */
+.suggestions{
+  display:flex;flex-wrap:wrap;gap:7px;padding:4px 0 8px;
+  flex-shrink:0;
+}
+.suggestion{
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:400;
+  background:var(--bg2);border:1px solid var(--border2);color:var(--muted);
+  cursor:pointer;transition:all .15s;text-align:left;font-family:inherit;
+}
+.suggestion:hover{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold-l)}
+
+/* INPUT AREA */
+.input-area{
+  flex-shrink:0;
+  padding:12px 0 16px;
+  border-top:1px solid var(--border);
+}
+.input-wrap{
+  display:flex;gap:8px;align-items:flex-end;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:8px 8px 8px 14px;
+  transition:border-color .15s,box-shadow .15s;
+}
+.input-wrap:focus-within{
+  border-color:var(--gold-bd);
+  box-shadow:0 0 0 3px rgba(200,168,75,0.06);
+}
+#userInput{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;
+  resize:none;line-height:1.5;max-height:120px;min-height:24px;
+}
+#userInput::placeholder{color:var(--dim)}
+.send-btn{
+  width:34px;height:34px;border-radius:8px;border:none;
+  background:var(--gold);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .15s,transform .15s;flex-shrink:0;
+}
+.send-btn:hover{opacity:.85;transform:translateY(-1px)}
+.send-btn:disabled{opacity:.4;cursor:default;transform:none}
+.send-btn svg{width:16px;height:16px}
+.input-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:7px;font-size:11px;color:var(--dim);
+}
+.input-footer a{color:var(--dim);text-decoration:none}
+.input-footer a:hover{color:var(--muted)}
+.char-count{font-size:10px}
+
+/* DISCLAIMER */
+.disclaimer-msg{
+  font-size:11px;color:var(--dim);text-align:center;
+  padding:6px 0;font-weight:300;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  nav{padding:10px 14px}
+  .page{padding:0 12px}
+  .msg-bubble{max-width:90%;font-size:13px}
+  .nav-links .nav-link:not(:last-child){display:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:3px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-dot"></div>
+    opsmap.eu
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="framework.html">Framework</a>
+    <a class="nav-link" href="dept-navigator.html">IR Navigator</a>
+    <a class="nav-link" href="icao-mapping.html">ICAO ↔ EASA</a>
+    <a class="nav-link" href="definitions.html">Definitions</a>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="assistant-header">
+    <div class="assistant-title">
+      <h1>Air OPS Assistant</h1>
+      <span class="ai-badge">AI</span>
+    </div>
+    <p class="assistant-desc">Ask anything about EASA Air Operations regulations — rule interpretation, OM writing guidance, compliance questions, rulemaking. Powered by Claude with Reg. 965/2012 context.</p>
+    <div class="context-pills">
+      <span class="ctx-pill">Reg. 965/2012 Rev. 24</span>
+      <span class="ctx-pill">Part-ARO · ORO · CAT · SPA</span>
+      <span class="ctx-pill">AMC &amp; GM</span>
+      <span class="ctx-pill">OM-A/B/C/D guidance</span>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-wrap" id="chatWrap">
+
+    <!-- Welcome message -->
+    <div class="msg assistant" id="welcomeMsg">
+      <div class="msg-avatar"><div style="width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,168,75,0.7)"></div></div>
+      <div class="msg-bubble">
+        <p><strong>Good to have you here.</strong> I'm an AI assistant with detailed knowledge of EASA Air Operations regulations — Reg. 965/2012 and all its Parts, AMC, GM, and the rulemaking pipeline.</p>
+        <p>I can help you understand specific rules, work through compliance questions, draft OM content, or explain how rules relate to each other. Try one of the suggestions below or ask me anything directly.</p>
+        <p><em>Reminder: always verify against the official EASA Easy Access Rules for compliance purposes.</em></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUGGESTIONS -->
+  <div class="suggestions" id="suggestions">
+    <button class="suggestion" onclick="useSuggestion(this)">What does ORO.GEN.200 require for an SMS?</button>
+    <button class="suggestion" onclick="useSuggestion(this)">Explain the difference between AMC and GM</button>
+    <button class="suggestion" onclick="useSuggestion(this)">What changed in Rev. 24 for CAT operators?</button>
+    <button class="suggestion" onclick="useSuggestion(this)">What should OM-A chapter on fuel policy include?</button>
+    <button class="suggestion" onclick="useSuggestion(this)">When is a SPA required for ETOPS?</button>
+    <button class="suggestion" onclick="useSuggestion(this)">What is the role of a Nominated Person for Flight Operations?</button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-area">
+    <div class="input-wrap">
+      <label for="userInput" class="sr-only">Ask a question about EASA regulations</label>
+      <textarea id="userInput" rows="1" placeholder="Ask about EASA Air OPS regulations…" oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="#0c1520" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="input-footer">
+      <span>Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude</a> · Context: EASA Reg. 965/2012 Rev. 24</span>
+      <span class="disclaimer-msg">AI responses may contain errors. Always verify with official EASA sources.</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── THEME ──────────────────────────────────────
+function toggleTheme() {
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  document.getElementById('themeBtn').textContent = isLight ? '☀ Light' : '🌙 Dark';
+  localStorage.setItem('opsmap-theme', isLight ? '' : 'light');
+}
+(function(){
+  var t = localStorage.getItem('opsmap-theme');
+  if (t === 'light') {
+    document.documentElement.setAttribute('data-theme','light');
+    document.getElementById('themeBtn').textContent = '🌙 Dark';
+  }
+})();
+
+// ── SYSTEM PROMPT ─────────────────────────────
+var SYSTEM_PROMPT = `You are an expert assistant for EASA Air Operations regulations, embedded in opsmap.eu — a reference site for EU aviation professionals. Your primary purpose is accuracy. A wrong answer about regulatory compliance can have real consequences. When in doubt, say so clearly.
+
+YOUR KNOWLEDGE BASE:
+
+Regulation (EU) No 965/2012 (Air OPS) Revision 24 (March 2026), including all Annexes:
+- Annex I: Definitions
+- Annex II (Part-ARO): Authority requirements — GEN (authority management system, personnel qualifications, oversight programme, findings, enforcement measures), OPS (AOC issuance and variation, lease agreements, flight time specification schemes), RAMP (ramp inspections and grounding)
+- Annex III (Part-ORO): Organisation requirements — GEN (responsibilities, SMS, ISMS, changes, access, occurrence reporting, record-keeping), AOC (application, leasing, code-share), MLR (OM, MEL, journey log, OFP), FC (crew composition, CRM, conversion training, recurrent training and checking, seat qualification), CC (cabin crew attestation, training, composition), FTL (applicability, crew responsibilities, fatigue management training, fatigue risk management, FDP, rest periods, standby, augmented crew, commander discretion, record-keeping, scheduling policy), SEC (flight crew compartment security, security procedures)
+- Annex IV (Part-CAT): Commercial air transport — GEN (means of compliance, common requirements, documents on board, commander authority, DG, psychoactive substances, FDR handling), OP (aerodrome operating minima, alternates selection, fuel and oil supply, in-flight fuel management, OFP, met conditions, ice protection, de-icing, approach and landing conditions, refuelling with pax on board), POL (Performance A — take-off, en-route OEI, landing), IDE (instruments general, GPWS/TAWS, TCAS II, FDR, CVR, EFB, oxygen)
+- Annex V (Part-SPA): Specific approvals — GEN, PBN, NAT HLA (formerly MNPS), RVSM, LVO, ETOPS/EDTO, DG, NVIS, HHO, HEMS, HOFO (helicopter offshore operations), HOIST, HESLO, HET
+- Annexes VI-VIII: Part-NCC, Part-NCO, Part-SPO (non-commercial and specialised operations)
+- All AMC and GM published to Rev. 24
+
+Note on FTL: the hard cumulative limits (60h/7 days, 110h/14 days, 190h/28 days) and maximum FDP tables are in the IR itself (ORO.FTL.210 and ORO.FTL.235). Detailed sector-dependent FDP limits and minimum rest provisions are in the AMC. You may state IR limits directly; for AMC table values, direct users to the EAR.
+
+Related regulations:
+- Reg. (EU) 2018/1139: Basic Regulation (EASA mandate, essential requirements)
+- Reg. (EU) 1178/2011: Aircrew (Part-FCL licences, Part-MED medical, Part-CC cabin crew attestation, Part-ORA training organisations)
+- Reg. (EU) 1321/2014: Continuing Airworthiness (Part-CAMO, Part-145, Part-66)
+- Reg. (EU) 376/2014: Occurrence reporting — defines mandatory and voluntary reporting, 72-hour timeframe, just culture provisions. Separate from the SMS occurrence reporting obligation under ORO.GEN.200.
+- EC Reg. 300/2008: Aviation security — primary security framework, enforced nationally. ORO.SEC covers flight crew compartment security and security training procedures only; broader security obligations (screening, access control, threat response) are in Reg. 300/2008 and national security programmes.
+- Reg. (EU) 452/2014: Third Country Operator (TCO) authorisations — non-EU operators require EASA TCO authorisation to operate into EU airspace. Separate from Air OPS; do not use Part-ARO rules to answer TCO questions.
+- Reg. (EU) 923/2012: SERA (Standardised European Rules of the Air) — VFR minima, flight plan requirements, VMC criteria, right of way. Separate from Reg. 965/2012.
+
+Active rulemaking (as of April 2026):
+- Opinion 01/2026 (published 28 Jan 2026): FOO/OCP training requirements and ETOPS→EDTO alignment. Pending Commission adoption.
+- Opinion 02/2026 (published 6 Feb 2026): FTL rules for AEMS, air taxi and single-pilot CAT. Proposes dedicated FTL scheme (ORO.FTL.300 series). Pending Commission adoption.
+- Opinion 01/2025 (published 19 May 2025): FSTD requirements update. Pending Commission adoption.
+- NPA 2025-09: FF-ICE flight planning (SESAR). In consultation.
+- NPA 2025-07: AI trustworthiness framework. Consultation closed March 2026. CRD expected 2026.
+- EPAS 2026: 69 RMTs including AI (RMT.0742), FF-ICE (RMT.0724), PBN (RMT.0830), UPRT (RMT.0706).
+
+Rev. 24 key changes (in force March 2026):
+- ORO.GEN.200A: New ISMS obligation for all AOC holders
+- ORO.GEN.315: New dedicated ground handling procedures rule
+- ORO.AOC.130 AMC: Enhanced FDM requirements
+
+YOUR ROLE:
+- Answer questions about specific rules, their requirements and practical application
+- Explain the relationship between IRs, AMC and GM
+- Help with OM structure (OM-A, OM-B, OM-C, OM-D) and content requirements
+- Clarify compliance obligations and how they apply to CAT operators
+- Explain rulemaking processes and what is in the pipeline
+
+ACCURACY RULES — follow these strictly:
+- The topic descriptions above are for orientation only. Do not use them as the basis for answering specific questions. Your answers must be based on your knowledge of the actual rule text.
+- If you are not certain of the exact rule number or its content, say so explicitly. Do not guess rule numbers.
+- Do not paraphrase specific quantitative requirements (distances, times, weights, percentages, FDP limits) from memory. If you cannot recall the exact figure, direct the user to the rule text in the EAR rather than guessing.
+- Never invent AMC or GM content. If you are unsure whether AMC exists for a rule, say so.
+- If a question is about a specific NAA's position or interpretation, say you cannot answer for a specific authority.
+- For questions crossing into TCO, SERA, or national security programmes, name the correct regulation and explain it is outside Air OPS scope.
+
+TONE AND FORMAT:
+- Respond in the language the user writes in. When using regulatory terms, always use the official English term from the regulation and provide a brief translation if answering in another language.
+- Professional but clear — explain jargon when you use it.
+- Practical — connect rules to what operators actually need to do.
+- CONCISE — lead with a direct answer in 1-3 sentences. Expand only if genuinely needed.
+- Prose, not bullet points. Use bullets only for 4+ distinct items that cannot flow naturally as prose.
+- No headers of any kind (# ## ###) — this is a chat interface, not a document.
+- Never use bold for emphasis. Bold is reserved exclusively for regulatory references like **ORO.GEN.200** or **Part-CAT**.
+
+ALWAYS ADD at the end of substantive regulatory answers (not on brief follow-ups):
+- A recommendation to verify against the official EASA Easy Access Rules at easa.europa.eu
+- For OM content: note that all OM content requires NAA acceptance before use
+- You are an educational tool, not a legal advisor`;
+
+// ── CONVERSATION HISTORY ──────────────────────
+var chatHistory = [];
+var lastSendTime = 0;
+var MAX_HISTORY_PAIRS = 8; // keep last 8 exchanges (16 messages)
+
+// ── HELPERS ──────────────────────────────────
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function useSuggestion(btn) {
+  document.getElementById('userInput').value = btn.textContent;
+  document.getElementById('suggestions').style.display = 'none';
+  sendMessage();
+}
+
+function scrollToBottom() {
+  var wrap = document.getElementById('chatWrap');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function goldDot() {
+  var d = document.createElement('div');
+  d.style.cssText = 'width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,168,75,0.7)';
+  return d;
+}
+
+function addMessage(role, content) {
+  var wrap = document.getElementById('chatWrap');
+  var div = document.createElement('div');
+  div.className = 'msg ' + role;
+  var avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  if (role === 'user') {
+    avatar.innerHTML = '<span style="font-size:11px;font-weight:600;font-family:DM Sans,sans-serif">You</span>';
+  } else {
+    avatar.appendChild(goldDot());
+  }
+  var bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = formatMessage(content);
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  wrap.appendChild(div);
+  scrollToBottom();
+  return bubble;
+}
+
+function formatMessage(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--ops);text-decoration:underline">$1</a>')
+    .replace(/^#### (.*$)/gm, '<strong style="font-size:12px;display:block;margin-top:6px;margin-bottom:2px">$1</strong>')
+    .replace(/^### (.*$)/gm, '<strong style="font-size:13px;display:block;margin-top:8px;margin-bottom:2px">$1</strong>')
+    .replace(/^## (.*$)/gm, '<strong style="font-size:14px;display:block;margin-top:10px;margin-bottom:4px">$1</strong>')
+    .replace(/^# (.*$)/gm, '<strong style="font-size:15px;display:block;margin-top:10px;margin-bottom:4px">$1</strong>')
+    .replace(/^- (.*$)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^(?!<)/, '<p>')
+    .replace(/(?<!>)$/, '</p>');
+}
+
+function showTyping() {
+  var wrap = document.getElementById('chatWrap');
+  var div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.id = 'typingIndicator';
+  var avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.appendChild(goldDot());
+  var bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  wrap.appendChild(div);
+  scrollToBottom();
+}
+
+function removeTyping() {
+  var el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function getWindowedHistory() {
+  var maxMessages = MAX_HISTORY_PAIRS * 2;
+  if (chatHistory.length <= maxMessages) return chatHistory;
+  return chatHistory.slice(chatHistory.length - maxMessages);
+}
+
+// ── SEND MESSAGE ──────────────────────────────
+async function sendMessage() {
+  var input = document.getElementById('userInput');
+  var text = input.value.trim();
+  if (!text) return;
+
+  // Client-side cooldown — 2 seconds between messages
+  var now = Date.now();
+  if (now - lastSendTime < 2000) return;
+  lastSendTime = now;
+
+  document.getElementById('suggestions').style.display = 'none';
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  saveHistory();
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
+
+  try {
+    var WORKER_URL = 'https://opsmap-api.b2c-704.workers.dev';
+
+    var response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: getWindowedHistory()
+      })
+    });
+
+    removeTyping();
+
+    if (response.status === 429) {
+      addMessage('assistant', 'The assistant is receiving too many requests right now. Please wait a moment and try again.');
+    } else if (response.status >= 500) {
+      addMessage('assistant', 'The assistant service is temporarily unavailable. Please try again in a few minutes.');
+    } else {
+      var data = await response.json();
+      if (data.content && data.content[0]) {
+        var reply = data.content[0].text;
+        chatHistory.push({ role: 'assistant', content: reply });
+        addMessage('assistant', reply);
+        saveHistory();
+      } else if (data.error) {
+        addMessage('assistant', 'Something went wrong: ' + (data.error.message || 'Unknown error. Please try again.'));
+      }
+    }
+  } catch (err) {
+    removeTyping();
+    if (err instanceof TypeError && err.message.includes('fetch')) {
+      addMessage('assistant', 'Could not reach the assistant — please check your internet connection and try again.');
+    } else {
+      addMessage('assistant', 'An unexpected error occurred. Please try again.');
+    }
+  }
+
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+// ── PERSISTENCE ──────────────────────────────
+var STORAGE_KEY = 'opsmap-chat-history';
+
+function saveHistory() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chatHistory));
+  } catch(e) {}
+}
+
+function loadHistory() {
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    var parsed = JSON.parse(saved);
+    if (!Array.isArray(parsed) || parsed.length === 0) return;
+    chatHistory = parsed;
+    // Hide suggestions since there's a prior conversation
+    document.getElementById('suggestions').style.display = 'none';
+    // Re-render all saved messages
+    parsed.forEach(function(msg) {
+      addMessage(msg.role, msg.content);
+    });
+  } catch(e) {}
+}
+
+function clearHistory() {
+  chatHistory = [];
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  var wrap = document.getElementById('chatWrap');
+  // Remove all messages but keep the welcome message
+  var msgs = wrap.querySelectorAll('.msg');
+  msgs.forEach(function(m){ m.remove(); });
+  document.getElementById('suggestions').style.display = 'flex';
+}
+
+// Save after each assistant reply — patch into chatHistory.push
+var _origPush = Array.prototype.push;
+// Hook: save whenever assistant message is added
+document.addEventListener('DOMContentLoaded', function() {
+  loadHistory();
+  // Add a clear button to the header
+  var header = document.querySelector('.chat-header');
+  if (header) {
+    var clearBtn = document.createElement('button');
+    clearBtn.textContent = 'Clear conversation';
+    clearBtn.style.cssText = 'background:none;border:1px solid var(--border2);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);font-family:inherit;cursor:pointer;transition:all .15s;margin-left:auto';
+    clearBtn.onmouseover = function(){ this.style.borderColor='var(--ir-bd)';this.style.color='var(--ir)'; };
+    clearBtn.onmouseout = function(){ this.style.borderColor='var(--border2)';this.style.color='var(--muted)'; };
+    clearBtn.onclick = clearHistory;
+    header.appendChild(clearBtn);
+  }
+});
+</script>
+</body>
+</html>
